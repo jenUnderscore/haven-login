@@ -1,0 +1,278 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="change-log">Change Log</h1>
+<h2 id="1-14-3-2022-07-11">1.14.3 - 2022-07-11</h2>
+<ul>
+<li><a href="https://github.com/php-http/discovery/pull/207">#207</a> - Updates Exception to extend Throwable solving static analysis errors for consumers</li>
+</ul>
+<h2 id="1-14-2-2022-05-25">1.14.2 - 2022-05-25</h2>
+<ul>
+<li><a href="https://github.com/php-http/discovery/pull/202">#202</a> - Avoid error when the Symfony PSR-18 client exists but its dependencies are not installed</li>
+</ul>
+<h2 id="1-14-1-2021-09-18">1.14.1 - 2021-09-18</h2>
+<ul>
+<li><a href="https://github.com/php-http/discovery/pull/199">#199</a> - Fixes message factory discovery for <code>laminas-diactoros ^2.7</code> </li>
+</ul>
+<h2 id="1-14-0-2021-06-21">1.14.0 - 2021-06-21</h2>
+<ul>
+<li>Deprecate puli as it has been unmaintained for a long time and is not compatible with composer 2 <a href="https://github.com/php-http/discovery/pull/195">https://github.com/php-http/discovery/pull/195</a></li>
+</ul>
+<h2 id="1-13-0-2020-11-27">1.13.0 - 2020-11-27</h2>
+<ul>
+<li>Support discovering PSR-17 factories of <code>slim/psr7</code> package <a href="https://github.com/php-http/discovery/pull/192">https://github.com/php-http/discovery/pull/192</a></li>
+</ul>
+<h2 id="1-12-0-2020-09-22">1.12.0 - 2020-09-22</h2>
+<ul>
+<li>Support discovering HttpClient of <code>php-http/guzzle7-adapter</code> <a href="https://github.com/php-http/discovery/pull/189">https://github.com/php-http/discovery/pull/189</a></li>
+</ul>
+<h2 id="1-11-0-2020-09-22">1.11.0 - 2020-09-22</h2>
+<ul>
+<li>Use correct method name to find Uri Factory in PSR17 <a href="https://github.com/php-http/discovery/pull/181">https://github.com/php-http/discovery/pull/181</a></li>
+</ul>
+<h2 id="1-10-0-2020-09-04">1.10.0 - 2020-09-04</h2>
+<ul>
+<li>Discover PSR-18 implementation of phalcon</li>
+</ul>
+<h2 id="1-9-1-2020-07-13">1.9.1 - 2020-07-13</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Support PHP 7.4 and 8.0</li>
+</ul>
+<h2 id="1-9-0-2020-07-02">1.9.0 - 2020-07-02</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support discovering PSR-18 factories of <code>guzzlehttp/guzzle</code> 7+</li>
+</ul>
+<h2 id="1-8-0-2020-06-14">1.8.0 - 2020-06-14</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support discovering PSR-17 factories of <code>guzzlehttp/psr7</code> package</li>
+<li>Support discovering PSR-17 factories of <code>laminas/laminas-diactoros</code> package</li>
+<li><code>ClassDiscovery::getStrategies()</code> to retrieve the list of current strategies.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Ignore exception during discovery when Symfony HttplugClient checks if HTTPlug is available.</li>
+</ul>
+<h2 id="1-7-4-2020-01-03">1.7.4 - 2020-01-03</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Improve conditions on Symfony&#39;s async HTTPlug client.</li>
+</ul>
+<h2 id="1-7-3-2019-12-27">1.7.3 - 2019-12-27</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Enough conditions to only use Symfony HTTP client if all needed components are available.</li>
+</ul>
+<h2 id="1-7-2-2019-12-27">1.7.2 - 2019-12-27</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Allow a condition to specify an interface and not just classes.</li>
+</ul>
+<h2 id="1-7-1-2019-12-26">1.7.1 - 2019-12-26</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Better conditions to see if Symfony&#39;s HTTP clients are available.</li>
+</ul>
+<h2 id="1-7-0-2019-06-30">1.7.0 - 2019-06-30</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Dropped support for PHP &lt; 7.1</li>
+<li>Support for <code>symfony/http-client</code></li>
+</ul>
+<h2 id="1-6-1-2019-02-23">1.6.1 - 2019-02-23</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>MockClientStrategy also provides the mock client when requesting an async client</li>
+</ul>
+<h2 id="1-6-0-2019-01-23">1.6.0 - 2019-01-23</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support for PSR-17 factories</li>
+<li>Support for PSR-18 clients</li>
+</ul>
+<h2 id="1-5-2-2018-12-31">1.5.2 - 2018-12-31</h2>
+<p>Corrected mistakes in 1.5.1. The different between 1.5.2 and 1.5.0 is that
+we removed some PHP 7 code.</p>
+<p><a href="https://github.com/php-http/discovery/compare/1.5.0...1.5.2">https://github.com/php-http/discovery/compare/1.5.0...1.5.2</a></p>
+<h2 id="1-5-1-2018-12-31">1.5.1 - 2018-12-31</h2>
+<p>This version added new features by mistake. These are reverted in 1.5.2.</p>
+<p>Do not use 1.5.1.</p>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Removed PHP 7 code</li>
+</ul>
+<h2 id="1-5-0-2018-12-30">1.5.0 - 2018-12-30</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support for <code>nyholm/psr7</code> version 1.0.</li>
+<li><code>ClassDiscovery::safeClassExists</code> which will help Magento users.</li>
+<li>Support for HTTPlug 2.0</li>
+<li>Support for Buzz 1.0</li>
+<li>Better error message when nothing found by introducing a new exception: <code>NoCandidateFoundException</code>.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Fixed condition evaluation, it should stop after first invalid condition.</li>
+</ul>
+<h2 id="1-4-0-2018-02-06">1.4.0 - 2018-02-06</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Discovery support for nyholm/psr7</li>
+</ul>
+<h2 id="1-3-0-2017-08-03">1.3.0 - 2017-08-03</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Discovery support for CakePHP adapter</li>
+<li>Discovery support for Zend adapter</li>
+<li>Discovery support for Artax adapter</li>
+</ul>
+<h2 id="1-2-1-2017-03-02">1.2.1 - 2017-03-02</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Fixed minor issue with <code>MockClientStrategy</code>, also added more tests.</li>
+</ul>
+<h2 id="1-2-0-2017-02-12">1.2.0 - 2017-02-12</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>MockClientStrategy class.</li>
+</ul>
+<h2 id="1-1-1-2016-11-27">1.1.1 - 2016-11-27</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Made exception messages clearer. <code>StrategyUnavailableException</code> is no longer the previous exception to <code>DiscoveryFailedException</code>.</li>
+<li><code>CommonClassesStrategy</code> is using <code>self</code> instead of <code>static</code>. Using <code>static</code> makes no sense when <code>CommonClassesStrategy</code> is final.</li>
+</ul>
+<h2 id="1-1-0-2016-10-20">1.1.0 - 2016-10-20</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Discovery support for Slim Framework factories</li>
+</ul>
+<h2 id="1-0-0-2016-07-18">1.0.0 - 2016-07-18</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Added back <code>Http\Discovery\NotFoundException</code> to preserve BC with 0.8 version. You may upgrade from 0.8.x and 0.9.x to 1.0.0 without any BC breaks.</li>
+<li>Added interface <code>Http\Discovery\Exception</code> which is implemented by all our exceptions</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Puli strategy renamed to Puli Beta strategy to prevent incompatibility with a future Puli stable</li>
+</ul>
+<h3 id="deprecated">Deprecated</h3>
+<ul>
+<li>For BC reasons, the old <code>Http\Discovery\NotFoundException</code> (extending the new exception) will be thrown until version 2.0</li>
+</ul>
+<h2 id="0-9-1-2016-06-28">0.9.1 - 2016-06-28</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Dropping PHP 5.4 support because we use the ::class constant.</li>
+</ul>
+<h2 id="0-9-0-2016-06-25">0.9.0 - 2016-06-25</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Discovery strategies to find classes</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><a href="http://puli.io">Puli</a> made optional</li>
+<li>Improved exceptions</li>
+<li><strong>[BC] <code>NotFoundException</code> moved to <code>Http\Discovery\Exception\NotFoundException</code></strong></li>
+</ul>
+<h2 id="0-8-0-2016-02-11">0.8.0 - 2016-02-11</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Puli composer plugin must be installed separately</li>
+</ul>
+<h2 id="0-7-0-2016-01-15">0.7.0 - 2016-01-15</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Temporary puli.phar (Beta 10) executable</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Updated HTTPlug dependencies</li>
+<li>Updated Puli dependencies</li>
+<li>Local configuration to make tests passing</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Puli CLI dependency</li>
+</ul>
+<h2 id="0-6-4-2016-01-07">0.6.4 - 2016-01-07</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Puli <a href="https://twitter.com/PuliPHP/status/685132540588507137">not working</a> with the latest json-schema</li>
+</ul>
+<h2 id="0-6-3-2016-01-04">0.6.3 - 2016-01-04</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Adjust Puli dependencies</li>
+</ul>
+<h2 id="0-6-2-2016-01-04">0.6.2 - 2016-01-04</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Make Puli CLI a requirement</li>
+</ul>
+<h2 id="0-6-1-2016-01-03">0.6.1 - 2016-01-03</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>More flexible Puli requirement</li>
+</ul>
+<h2 id="0-6-0-2015-12-30">0.6.0 - 2015-12-30</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Use <a href="http://puli.io">Puli</a> for discovery</li>
+<li>Improved exception messages</li>
+</ul>
+<h2 id="0-5-0-2015-12-25">0.5.0 - 2015-12-25</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Updated message factory dependency (php-http/message)</li>
+</ul>
+<h2 id="0-4-0-2015-12-17">0.4.0 - 2015-12-17</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Array condition evaluation in the Class Discovery</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Message factories (moved to php-http/utils)</li>
+</ul>
+<h2 id="0-3-0-2015-11-18">0.3.0 - 2015-11-18</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>HTTP Async Client Discovery</li>
+<li>Stream factories</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Discoveries and Factories are final</li>
+<li>Message and Uri factories have the type in their names</li>
+<li>Diactoros Message factory uses Stream factory internally</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Improved docblocks for API documentation generation</li>
+</ul>
+<h2 id="0-2-0-2015-10-31">0.2.0 - 2015-10-31</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Renamed AdapterDiscovery to ClientDiscovery</li>
+</ul>
+<h2 id="0-1-1-2015-06-13">0.1.1 - 2015-06-13</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Bad HTTP Adapter class name for Guzzle 5</li>
+</ul>
+<h2 id="0-1-0-2015-06-12">0.1.0 - 2015-06-12</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Initial release</li>
+</ul>
+
+      </body>
+    </html>

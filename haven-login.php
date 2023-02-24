@@ -114,3 +114,10 @@ add_action('plugins_loaded', function(){
     }
   }
 },10);
+
+require 'kernl-update-checker/kernl-update-checker.php';
+$MyUpdateChecker = Puc_v4_Factory::buildUpdateChecker(
+    'https://kernl.us/api/v1/updates/63f93d414736a5f572458954/',
+    __FILE__,
+    'haven-login'
+);

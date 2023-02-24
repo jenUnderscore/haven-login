@@ -1,0 +1,108 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="change-log">Change Log</h1>
+<p>All notable changes to this project will be documented in this file.</p>
+<p>The format is based on <a href="http://keepachangelog.com/en/1.0.0/">Keep a Changelog</a>
+and this project adheres to <a href="http://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.</p>
+<h2 id="unreleased"><a href="https://github.com/php-http/httplug/compare/v2.0.0...HEAD">Unreleased</a></h2>
+<h2 id="-2-3-0-2022-02-21">[2.3.0] - 2022-02-21</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Enabled the <code>$onRejected</code> callback of <code>HttpRejectedPromise</code> to return a promise for implementing a retry
+mechanism <a href="https://github.com/php-http/httplug/pull/168">#168</a></li>
+</ul>
+<h2 id="-2-2-0-2020-07-13">[2.2.0] - 2020-07-13</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Support PHP 7.1-8.0</li>
+</ul>
+<h2 id="-2-1-0-2019-12-27">[2.1.0] - 2019-12-27</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><code>Http\Client\Exception\NetworkException</code> no longer extends <code>Http\Client\Exception\RequestException</code>,
+in accordance with <a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a></li>
+</ul>
+<h2 id="2-0-0-2018-10-31"><a href="https://github.com/php-http/httplug/compare/v1.1.0...HEAD">2.0.0</a> - 2018-10-31</h2>
+<p>This version is no BC break for consumers using HTTPlug. However, HTTP clients that
+implement HTTPlug need to adjust because we add return type declarations.</p>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support for PSR-18 (HTTP client).</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li><strong>BC Break:</strong> <code>HttpClient::sendRequest(RequestInterface $request)</code> has a return type annotation. The new
+signature is <code>HttpClient::sendRequest(RequestInterface $request): ResponseInterface</code>.</li>
+<li><strong>BC Break:</strong> <code>RequestException::getRequest()</code> has a return type annotation. The new
+signature is <code>RequestException::getRequest(): RequestInterface</code>.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>PHP 5 support</li>
+</ul>
+<h2 id="1-1-0-2016-08-31"><a href="https://github.com/php-http/httplug/compare/v1.0.0...v1.1.0">1.1.0</a> - 2016-08-31</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>HttpFulfilledPromise and HttpRejectedPromise which respect the HttpAsyncClient interface</li>
+</ul>
+<h2 id="1-0-0-2016-01-26"><a href="https://github.com/php-http/httplug/compare/v1.0.0-RC1...v1.0.0">1.0.0</a> - 2016-01-26</h2>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Stability configuration from composer</li>
+</ul>
+<h2 id="1-0-0-rc1-2016-01-12"><a href="https://github.com/php-http/httplug/compare/v1.0.0-beta...v1.0.0-RC1">1.0.0-RC1</a> - 2016-01-12</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Updated package files</li>
+<li>Updated promise dependency to RC1</li>
+</ul>
+<h2 id="1-0-0-beta-2015-12-17"><a href="https://github.com/php-http/httplug/compare/v1.0.0-alpha3...v1.0.0-beta">1.0.0-beta</a> - 2015-12-17</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Puli configuration and binding types</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Exception concept</li>
+</ul>
+<h2 id="1-0-0-alpha3-2015-12-13"><a href="https://github.com/php-http/httplug/compare/v1.0.0-alpha2...v1.0.0-alpha3">1.0.0-alpha3</a> - 2015-12-13</h2>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Async client does not throw exceptions</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Promise interface moved to its own repository: <a href="https://github.com/php-http/promise">php-http/promise</a></li>
+</ul>
+<h2 id="1-0-0-alpha2-2015-11-16"><a href="https://github.com/php-http/httplug/compare/v1.0.0-alpha...v1.0.0-alpha2">1.0.0-alpha2</a> - 2015-11-16</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Async client and Promise interface</li>
+</ul>
+<h2 id="1-0-0-alpha-2015-10-26"><a href="https://github.com/php-http/httplug/compare/v0.1.0...v1.0.0-alpha">1.0.0-alpha</a> - 2015-10-26</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Better domain exceptions.</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Purpose of the library: general HTTP CLient abstraction.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Request options: they should be configured at construction time.</li>
+<li>Multiple request sending: should be done asynchronously using Async Client.</li>
+<li><code>getName</code> method</li>
+</ul>
+<h2 id="0-1-0-2015-06-03">0.1.0 - 2015-06-03</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Initial release</li>
+</ul>
+
+      </body>
+    </html>

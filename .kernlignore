@@ -1,0 +1,9 @@
+.gitignore
+.git
+.vscode
+resources
+prepros-6.config
+.env
+composer.json
+composer.lock
+README.md

@@ -1,0 +1,41 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="changelog">Changelog</h1>
+<p>All notable changes to this project will be documented in this file, in reverse chronological order by release.</p>
+<h2 id="1-0-1-2016-08-06">1.0.1 - 2016-08-06</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Nothing.</li>
+</ul>
+<h3 id="deprecated">Deprecated</h3>
+<ul>
+<li>Nothing.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Nothing.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Updated all <code>@return self</code> annotation references in interfaces to use
+<code>@return static</code>, which more closelly follows the semantics of the
+specification.</li>
+<li>Updated the <code>MessageInterface::getHeaders()</code> return annotation to use the
+value <code>string[][]</code>, indicating the format is a nested array of strings.</li>
+<li>Updated the <code>@link</code> annotation for <code>RequestInterface::withRequestTarget()</code>
+to point to the correct section of RFC 7230.</li>
+<li>Updated the <code>ServerRequestInterface::withUploadedFiles()</code> parameter annotation
+to add the parameter name (<code>$uploadedFiles</code>).</li>
+<li>Updated a <code>@throws</code> annotation for the <code>UploadedFileInterface::moveTo()</code>
+method to correctly reference the method parameter (it was referencing an
+incorrect parameter name previously).</li>
+</ul>
+<h2 id="1-0-0-2016-05-18">1.0.0 - 2016-05-18</h2>
+<p>Initial stable release; reflects accepted PSR-7 specification.</p>
+
+      </body>
+    </html>

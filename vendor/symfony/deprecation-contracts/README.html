@@ -1,0 +1,28 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>README.md</title>
+      </head>
+      <body>
+        <h1 id="symfony-deprecation-contracts">Symfony Deprecation Contracts</h1>
+<p>A generic function and convention to trigger deprecation notices.</p>
+<p>This package provides a single global function named <code>trigger_deprecation()</code> that triggers silenced deprecation notices.</p>
+<p>By using a custom PHP error handler such as the one provided by the Symfony ErrorHandler component,
+the triggered deprecations can be caught and logged for later discovery, both on dev and prod environments.</p>
+<p>The function requires at least 3 arguments:</p>
+<ul>
+<li>the name of the Composer package that is triggering the deprecation</li>
+<li>the version of the package that introduced the deprecation</li>
+<li>the message of the deprecation</li>
+<li>more arguments can be provided: they will be inserted in the message using <code>printf()</code> formatting</li>
+</ul>
+<p>Example:</p>
+<pre><code class="lang-php">trigger_deprecation(&#39;symfony/blockchain&#39;, &#39;8.9&#39;, &#39;Using &quot;%s&quot; is deprecated, use &quot;%s&quot; instead.&#39;, &#39;bitcoin&#39;, &#39;fabcoin&#39;);
+</code></pre>
+<p>This will generate the following message:
+<code>Since symfony/blockchain 8.9: Using &quot;bitcoin&quot; is deprecated, use &quot;fabcoin&quot; instead.</code></p>
+<p>While not necessarily recommended, the deprecation notices can be completely ignored by declaring an empty
+<code>function trigger_deprecation() {}</code> in your application.</p>
+
+      </body>
+    </html>

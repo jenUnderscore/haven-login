@@ -1,0 +1,51 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CONTRIBUTING.md</title>
+      </head>
+      <body>
+        <h2 id="contributing">Contributing</h2>
+<p>We provide and maintain SDKs for the benefit of our developer community. Feedback, detailed bug reports, and focused PRs are always appreciated. Thank you in advance!</p>
+<p>When contributing to this SDK, please:</p>
+<ul>
+<li>Maintain the minimum PHP version (found under <code>require.php</code> in <code>composer.json</code> for the branch).</li>
+<li>Code to the <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md">PSR-2 standard</a>.</li>
+<li>Ensure all tests are passing on the whole project before submitting your PR, specifically <code>composer tests</code> and <code>composer tests:phpversions</code></li>
+<li>Keep PRs focused and change the minimum number of lines to achieve your goal.</li>
+</ul>
+<h3 id="running-static-analysis">Running static analysis</h3>
+<p>Prior to making a PR, please ensure that the unit tests pass and the static analysis suite detects no defects:</p>
+<p><code>composer tests</code></p>
+<p>You can add this to a pre-commit hook with the following:</p>
+<pre><code>echo &#39;#!/bin/sh&#39; &gt; .git/hooks/pre-commit &amp;&amp; echo &#39;composer tests&#39; &gt;&gt; .git/hooks/pre-commit
+</code></pre><p>Ensure it&#39;s executable: <code>chmod 0700 .git/hooks/pre-commit</code></p>
+<blockquote>
+<p>Note: you need <a href="https://xdebug.org/">Xdebug</a> installed. In Xdebug 3.x you need the following modes enabled: <code>xdebug.mode = develop,coverage,debug</code></p>
+</blockquote>
+<h3 id="php-version-specific-tests">PHP version-specific tests</h3>
+<p>Prior to making a PR, please ensure that the PHP version-specific tests pass (required Docker):</p>
+<p><code>compooser tests:phpversions</code></p>
+<blockquote>
+<p>Note: ensure <code>docker/entrypoint.sh</code> is executable.</p>
+</blockquote>
+<h3 id="running-integration-tests">Running integration tests</h3>
+<p>The integration tests require a tenant and Auth0 Application configured with the following:</p>
+<ul>
+<li>The Application must be of type Machine-to-Machine and have the Management API authorized</li>
+<li>The tenant must have the default Database connection named &quot;Username-Password-Authentication&quot;, and it must not have the &quot;Requires Username&quot; enabled</li>
+<li>The tenant must have at least two rules (they can be empty rules)</li>
+</ul>
+<p>You will also need to create a <code>.env</code> file in the root of this package with the following entries:</p>
+<ul>
+<li><code>DOMAIN</code> - Auth0 domain for your test tenant</li>
+<li><code>APP_CLIENT_ID</code> - Client ID for a Machine-to-Machine Application within your test tenant</li>
+<li><code>APP_CLIENT_SECRET</code> - Client Secret for a Machine-to-Machine Application within your test tenant</li>
+</ul>
+<blockquote>
+<p>This file is automatically excluded from Git with the <code>.gitignore</code> for this repo.</p>
+</blockquote>
+<p>To run the integration tests:</p>
+<p><code>composer test-integration</code></p>
+
+      </body>
+    </html>
