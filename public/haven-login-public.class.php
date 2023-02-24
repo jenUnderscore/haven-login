@@ -241,7 +241,7 @@ class Haven_Login_Public {
       if(!$hide_maintenance) return $this->maintenance_mode($params);
     }
     elseif($this->auth0->checkEnv() && $this->getSetting('auth0_activate') == "Y"){ 
-      $this->login_form($params=array());
+      return $this->login_form($params);
     }
   }
 
