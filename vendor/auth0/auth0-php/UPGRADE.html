@@ -1,0 +1,690 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>UPGRADE.md</title>
+      </head>
+      <body>
+        <h1 id="migration-guide">Migration Guide</h1>
+<h2 id="upgrading-from-v7-x-v8-0">Upgrading from v7.x → v8.0</h2>
+<p>Our version 8 release includes many significant improvements:</p>
+<ul>
+<li>Adoption of <a href="https://stitcher.io/blog/new-in-php-74">modern PHP language features</a> including typed properties, null coalescing assignment operators, and array spreading.</li>
+<li>Support for custom <a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> and <a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> factories for customizing network requests. <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> responses are also now returned throughout the SDK.</li>
+<li><a href="https://www.php-fig.org/psr/psr-4/">PSR-4</a> event hooks are now supported throughout the SDK.</li>
+<li><a href="https://en.wikipedia.org/wiki/Fluent_interface#PHP">Fluent interface</a> throughout the SDK, offering simplified usage.</li>
+<li>Optional auto-pagination of Management API endpoints that support pagination.</li>
+<li><a href="https://auth0.com/docs/flows/call-your-api-using-the-authorization-code-flow-with-pkce">PKCE</a> is now enabled by default.</li>
+<li>Improved JWT processing and fewer dependencies.</li>
+</ul>
+<p>As is to be expected with a major release, there are breaking changes in this update. Please ensure you read this guide thoroughly and prepare your app before upgrading to SDK v8.</p>
+<h3 id="new-minimum-php-version-7-4-8-0-preferred-">New minimum PHP version: 7.4 (8.0 preferred)</h3>
+<ul>
+<li>SDK v8.0 requires PHP 7.4 or higher. PHP 8.0 is supported, and its use with this library is preferred and strongly encouraged.</li>
+<li>7.4 will be the final release in PHP&#39;s 7.x branch. This SDK will only support PHP 8.0+ after 7.4 leaves <a href="https://www.php.net/supported-versions.php">supported status</a> in November 2022.</li>
+<li>We strongly encourage you to make use of PHP 8.0&#39;s new <a href="https://stitcher.io/blog/php-8-named-arguments">named arguments language feature</a>. Once 7.4 support ends, we will no longer consider method argument order changes to be a breaking change.</li>
+</ul>
+<h3 id="session-storage-chan-ges-require-user-reauthentication">Session Storage Chan ges Require User Reauthentication</h3>
+<p>The new default session storage medium in 8.0 are encrypted cookies. Upgrading to 8.0 from 7.x will require your application&#39;s users to re-authenticate.</p>
+<h3 id="class-and-method-changes">Class and Method Changes</h3>
+<h3 id="potentially-breaking-changes">Potentially Breaking Changes</h3>
+<p>These classes were updated in SDK 8.0:</p>
+<ul>
+<li><p>Class <code>Auth0\SDK\Auth0</code> updated:</p>
+<ul>
+<li><code>__construct</code> updated:<ul>
+<li><code>configuration</code> added as a required instance of either an <code>SdkConfiguration</code> class, or an array of configuration options. See the <a href="#configuring-auth0-sdk-80">8.0 configuration</a> and <a href="#updated-configuration-options">8.0 configuration options</a> guides for usage information.</li>
+<li>All other arguments have been removed.</li>
+</ul>
+</li>
+<li>Public method <code>authentication()</code> added. It returns a pre-configured singleton of the <code>Auth0\SDK\API\Authentication</code> class.</li>
+<li>Public method <code>management()</code> added. It returns a pre-configured singleton of the <code>Auth0\SDK\API\Management</code> class.</li>
+<li>Public method <code>login()</code> updated:<ul>
+<li>Method now accepts an argument, <code>params</code>: an array of parameters to pass with the API request.</li>
+<li>Arguments <code>state</code>, <code>connection</code>, and <code>additionalParameters</code> have been removed. Use the new <code>params</code> argument for these uses.</li>
+<li>Method now returns an intended login URL as a string. Method no longer sends redirect headers itself to better integrate with application frameworks. Developers should redirect users to the returned URL using a method appropriate for the application type/framework. For example, the redirect() method in Laravel or Symfony, Header(&quot;Location: $url&quot;) with plain PHP, etc.</li>
+</ul>
+</li>
+<li>Public method <code>signup()</code> added as a convenience. This method will pass the ?screen_hint=signup param, supported by the New Universal Login Experience.</li>
+<li>Public method <code>getLoginUrl()</code> moved to <code>Auth0\SDK\API\Authentication\getLoginLink()</code>, and:<ul>
+<li>Argument <code>params</code> is now a nullable array.</li>
+</ul>
+</li>
+<li>Public method <code>renewTokens()</code> renamed to <code>renew()</code>, and:<ul>
+<li>Argument <code>options</code> renamed to <code>params</code> and is now a nullable array.</li>
+</ul>
+</li>
+<li>Public method <code>decodeIdToken()</code> renamed to <code>decode()</code>, and:<ul>
+<li>Argument <code>idToken</code> renamed to <code>token.</code></li>
+<li>Argument <code>verifierOptions</code> removed.</li>
+<li>Arguments <code>tokenAudience</code> and <code>tokenOrganization</code> added as optional, nullable arrays.</li>
+<li>Argument <code>tokenNonce</code> added as an optional string.</li>
+<li>Arguments <code>tokenMaxAge</code>, <code>tokenLeeway</code>, and <code>tokenNow</code> were added as optional, nullable integers.</li>
+<li>Now returns an instance of <code>Auth0\SDK\Token</code> instead of an array.</li>
+</ul>
+</li>
+<li>Public methods <code>getAuthorizationCode()</code> and <code>getState()</code> were removed; please use <code>getRequestParameter()</code> method.</li>
+<li>Public method <code>deleteAllPersistentData()</code> renamed to <code>clear()</code>.</li>
+<li>Public methods <code>getNonce()</code> and <code>urlSafeBase64Decode()</code> were removed.</li>
+<li>Public methods <code>getAccessTokenExpiration()</code> and <code>setAccessTokenExpiration()</code> were added for retrieving for storing an access token expiration timestamp in session storage, respectively.</li>
+<li>Public methods <code>getUser()</code>, <code>getAccessToken()</code>, <code>getIdToken()</code> and <code>getRefreshToken()</code> no longer implicitly invoke <code>exchange()</code> as was previously the case, and instead return only what is already available in an available session. This change was made to avoid unintentionally invoking the token exchange at inappropriate times, and to allow developers to more easily check for an available session without accidentally executing unwanted code. Developers will need to call <code>Auth0::exchange()</code> themselves when a code exchange is desired to establish a session and store user data, which will then be available for return from the beforementioned methods.</li>
+<li>Public method <code>getCredentials()</code> added as a convenience. This method returns the Id Token, Access Token, Refresh Token, Access Token expiration timestamp, and user data from an available session without invoking an authorization flow, exchange, or raising an error if a session is not available.</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\API\Authentication</code> updated:</p>
+<ul>
+<li><code>__construct</code> updated:<ul>
+<li><code>configuration</code> added as a required instance of either an <code>SdkConfiguration</code> class, or an array of configuration options. See the <a href="#configuring-auth0-sdk-80">8.0 configuration</a> and <a href="#updated-configuration-options">8.0 configuration options</a> guides for usage information.</li>
+<li>All other arguments have been removed.</li>
+</ul>
+</li>
+<li>Public method &#39;getHttpClient()&#39; added.</li>
+<li>Public method <code>get_authorize_link()</code> renamed to <code>getLoginLink()</code>, and:<ul>
+<li>Method now accepts an argument, <code>params</code>: an array of parameters to pass with the request. Please see the API endpoint documentation for available options. Note also the previously optional <code>state</code> argument is now required.</li>
+</ul>
+</li>
+<li>Public method <code>get_samlp_link()</code> renamed to <code>getSamlpLink()</code>, and:<ul>
+<li>Argument <code>client_id</code> renamed to <code>clientId</code>.</li>
+</ul>
+</li>
+<li>Public method <code>get_samlp_metadata_link()</code> renamed to <code>getSamlpMetadataLink()</code>, and:<ul>
+<li>Argument <code>client_id</code> renamed to <code>clientId</code>.</li>
+</ul>
+</li>
+<li>Public method <code>get_wsfed_link()</code> renamed to <code>getWsfedLink()</code>, and:<ul>
+<li>Argument <code>client_id</code> renamed to <code>clientId</code>.</li>
+</ul>
+</li>
+<li>Public method <code>get_wsfed_metadata_link()</code> renamed to <code>getWsfedMetadataLink()</code>.</li>
+<li>Public method <code>get_logout_link()</code> renamed to <code>getLogoutLink()</code>, and:<ul>
+<li>Argument <code>returnTo</code> renamed to <code>returnUri</code>.</li>
+<li>Arguments <code>client_id</code> and <code>federated</code> were removed.</li>
+<li>Method now accepts an argument, <code>params</code>: an array of parameters to pass with the request. Please see the API endpoint documentation for available options.</li>
+</ul>
+</li>
+<li>Public method <code>passwordlessStart()</code> added.</li>
+<li>Public method <code>email_passwordless_start()</code> renamed to <code>emailPasswordlessStart()</code>, and:<ul>
+<li>Argument <code>authParams</code> updated to be nullable and defaults to null.</li>
+<li>Argument <code>headers</code> added to specify additional headers to pass with the request.</li>
+<li>Argument <code>forwarded_for</code> removed. Use the new <code>headers</code> argument with an &#39;AUTH0_FORWARDED_FOR&#39; key-value pair for this behavior.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>sms_passwordless_start()</code> renamed to <code>smsPasswordlessStart()</code>, and:<ul>
+<li>Argument <code>phone_number</code> renamed to <code>phoneNumber</code>.</li>
+<li>Argument <code>headers</code> added to specify additional headers to pass with the request.</li>
+<li>Argument <code>forwarded_for</code> removed. Use the new <code>headers</code> argument with an &#39;AUTH0_FORWARDED_FOR&#39; key-value pair for this behavior.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>userinfo()</code> renamed to <code>userInfo()</code>, and:<ul>
+<li>Argument <code>access_token</code> renamed to <code>accessToken</code>.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>oauth_token()</code> renamed to <code>oauthToken()</code>, and:<ul>
+<li>Argument <code>grantType</code> added. It requires a string.</li>
+<li>Arguments <code>headers</code> and <code>params</code> were added as optional, nullable arrays.</li>
+<li>Argument <code>options</code> removed. Use the new <code>headers</code> and <code>params</code> arguments for these functions.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>code_exchange()</code> renamed to <code>codeExchange()</code>, and:<ul>
+<li>Argument <code>redirect_uri</code> renamed to <code>returnUri</code>.</li>
+<li>Argument <code>code_verifier</code> renamed to <code>codeVerifier</code>.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>login()</code> updated:<ul>
+<li>Arguments <code>username</code>, <code>password,</code> and <code>realm</code> added as required strings.</li>
+<li>Arguments <code>headers</code> and <code>params</code> were added as optional, nullable arrays.</li>
+<li>Argument <code>ip_address</code> removed. Use the new <code>headers</code> argument with an &#39;AUTH0_FORWARDED_FOR&#39; key-value pair for this behavior.</li>
+<li>Argument <code>options</code> removed. Use the new <code>headers</code> and <code>params</code> arguments for these functions.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>login_with_default_directory()</code> renamed to <code>loginWithDefaultDirectory()</code>, and:<ul>
+<li>Arguments <code>username</code> and <code>password</code> added as required strings.</li>
+<li>Arguments <code>headers</code> and <code>params</code> were added as optional, nullable arrays.</li>
+<li>Argument <code>ip_address</code> removed. Use the new <code>headers</code> argument with an &#39;AUTH0_FORWARDED_FOR&#39; key-value pair for this behavior.</li>
+<li>Argument <code>options</code> removed. Use the new <code>headers</code> and <code>params</code> arguments for these functions.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>client_credentials()</code> renamed to <code>clientCredentials()</code>, and:<ul>
+<li>Arguments <code>headers</code> and <code>params</code> were added as optional, nullable arrays.</li>
+<li>Argument <code>options</code> removed. Use the new <code>headers</code> and <code>params</code> arguments for these functions.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>refresh_token()</code> renamed to <code>refreshToken()</code>, and:<ul>
+<li>Argument <code>refresh_token</code> renamed to <code>refreshToken</code>.</li>
+<li>Arguments <code>headers</code> and <code>params</code> were added as optional, nullable arrays.</li>
+<li>Argument <code>options</code> removed. Use the new <code>headers</code> and <code>params</code> arguments for these functions.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>dbconnections_signup()</code> renamed to <code>dbConnectionsSignup()</code>, and:<ul>
+<li>Arguments <code>body</code> and <code>headers</code> added as optional, nullable arrays.</li>
+<li>Now returns a PSR-7 ResponseInterface, instead of an array.</li>
+</ul>
+</li>
+<li>Public method <code>dbconnections_change_password()</code> changed to <code>dbConnectionsChangePassword()</code>, and:<ul>
+<li>Arguments <code>body</code> and <code>headers</code> added as optional, nullable arrays.</li>
+<li>Argument <code>password</code> removed. Use the new <code>body</code> argument for this behavior.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\API\Management</code> updated:</p>
+<ul>
+<li><code>__construct</code> updated:<ul>
+<li><code>configuration</code> added as a required instance of either an <code>SdkConfiguration</code> class, or an array of configuration options. See the <a href="#configuring-auth0-sdk-80">8.0 configuration</a> and <a href="#updated-configuration-options">8.0 configuration options</a> guides for usage information.</li>
+<li>All other arguments have been removed.</li>
+</ul>
+</li>
+<li>Public method &#39;getHttpClient()&#39; added.</li>
+<li>Public method <code>getResponsePaginator()</code> added.</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\API\Management\Tenants</code> updated:</p>
+<ul>
+<li>Public method <code>get</code> renamed to <code>getSettings</code>.</li>
+<li>Public method <code>update</code> renamed to <code>updateSettings</code>.</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\API\Management\GenericResource</code> renamed to <code>Auth0\SDK\API\Management\ManagementEndpoint</code>, and:</p>
+<ul>
+<li>Constructor updated to require an <code>HttpClient</code> instance; previously expected an <code>ApiClient</code> instance.</li>
+<li>Public method <code>getApiClient()</code> renamed to <code>getHttpClient()</code>.</li>
+<li>Public method <code>getLastRequest()</code> added.</li>
+<li>Public methods <code>normalizeRequest()</code>, <code>normalizePagination()</code>, <code>normalizeIncludeTotals()</code>, and <code>normalizeIncludeFields()</code> were removed, and:<ul>
+<li>Their functionality has been rolled into the new <code>Auth0\SDK\Utility\Request\RequestOptions</code>, <code>Auth0\SDK\Utility\Request\FilteredRequest</code>, and <code>Auth0\SDK\Utility\Request\PaginatedRequest</code> utility classes.</li>
+</ul>
+</li>
+<li>Public methods <code>checkInvalidPermissions()</code>, <code>checkEmptyOrInvalidString()</code>, and <code>checkEmptyOrInvalidArray()</code> were removed, and:<ul>
+<li>Their functionality has been rolled into the new <code>Auth0\SDK\Utility\Validate</code> utility class.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\Store\StoreInterface</code> moved to <code>Auth0\SDK\Contract\StoreInterface</code>.</p>
+</li>
+<li>Class <code>Auth0\SDK\Exception\CoreException</code> moved to <code>Auth0\SDK\Contract\SdkException</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\PKCE</code> moved to <code>Auth0\SDK\Utility\PKCE</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\TransientStoreHandler</code> moved to <code>Auth0\SDK\Utility\TransientStoreHandler</code>.</li>
+</ul>
+<h3 id="classes-removed">Classes Removed</h3>
+<ul>
+<li><p>All <code>Auth0\SDK\API\Header</code> classes:</p>
+<ul>
+<li>Class <code>Auth0\SDK\API\Header\AuthorizationBearer</code>.</li>
+<li>Class <code>Auth0\SDK\API\Header\ContentType</code>.</li>
+<li>Class <code>Auth0\SDK\API\Header\ForwardedFor</code>.</li>
+<li>Class <code>Auth0\SDK\API\Header\Header</code>.</li>
+<li>Class <code>Auth0\SDK\API\Header\Telemetry</code>.</li>
+</ul>
+</li>
+<li><p>All <code>Auth0\SDK\API\Helpers</code> classes:</p>
+<ul>
+<li>Class <code>Auth0\SDK\API\Helpers\ApiClient</code> superseded by <code>Auth0\SDK\Utility\HttpClient</code>.</li>
+<li>Class <code>Auth0\SDK\API\Helpers\RequestBuilder</code> superseded by <code>Auth0\SDK\Utility\HttpRequest</code>.</li>
+<li>Class <code>Auth0\SDK\API\Helpers\InformationHeaders</code> superseded by <code>Auth0\SDK\Utility\HttpTelemetry</code>.</li>
+</ul>
+</li>
+<li><p>All token-related classes have been replaced by the new <code>Auth0\SDK\Token</code>, <code>Auth0\SDK\Token\Parser</code>, <code>Auth0\SDK\Token\Validator</code>, and <code>Auth0\SDK\Token\Verifier</code> classes.</p>
+<ul>
+<li>Class <code>Auth0\SDK\Helpers\Tokens\AsymmetricVerifier</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\Tokens\IdTokenVerifier</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\Tokens\SignatureVerifier</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\Tokens\SymmetricVerifier</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\Tokens\TokenVerifier</code>.</li>
+<li>Class <code>Auth0\SDK\Helpers\JWKFetcher</code>.</li>
+</ul>
+</li>
+<li><p>Class <code>Auth0\SDK\Exception\ApiException</code> superseded by more specific exception classes.</p>
+</li>
+<li>Class <code>Auth0\SDK\Helpers\Cache\NoCacheHandler</code> no longer relevant.</li>
+<li>Class <code>Auth0\SDK\Store\EmptyStore</code> no longer relevant.</li>
+</ul>
+<h3 id="new-additions">New Additions</h3>
+<p>These classes and traits were added in SDK 8.0:</p>
+<ul>
+<li>Class <code>Auth0\SDK\Configuration\SdkConfiguration</code>.</li>
+<li>Class <code>Auth0\SDK\Configuration\SdkState</code>.</li>
+<li>Class <code>Auth0\SDK\Contract\ConfigurableContract</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\ArgumentException</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\AuthenticationException</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\ConfigurationException</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\NetworkException</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\PaginatorException</code>.</li>
+<li>Class <code>Auth0\SDK\Exception\StateException</code>.</li>
+<li>Class <code>Auth0\SDK\Token\Parser</code>.</li>
+<li>Class <code>Auth0\SDK\Token\Validator</code>.</li>
+<li>Class <code>Auth0\SDK\Token\Verifier</code>.</li>
+<li>Class <code>Auth0\SDK\Token</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\Request\FilteredRequest</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\Request\PaginatedRequest</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\Request\RequestOptions</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\HttpClient</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\HttpRequest</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\HttpResponse</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\HttpResponsePaginator</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\HttpTelemetry</code>.</li>
+<li>Class <code>Auth0\SDK\Utility\Shortcut</code>.</li>
+<li><p>Class <code>Auth0\SDK\Utility\Validate</code>.</p>
+</li>
+<li><p>Trait <code>Auth0\SDK\Mixins\ConfigurableMixin</code>.</p>
+</li>
+</ul>
+<h3 id="configuring-auth0-sdk-8-0">Configuring Auth0 SDK 8.0</h3>
+<p>Most class constructors throughout the SDK accept a new <code>SdkConfiguration</code> configuration class, which shares your app configuration by reference throughout the SDK&#39;s subclasses, allowing you to make changes on the fly from within your app:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Configuration\SdkConfiguration;
+
+// PHP 8.0 named arguments syntax
+$configuration = new SdkConfiguration(
+    domain: &#39;your-tenant.auth0.com&#39;,
+    clientId: &#39;application_client_id&#39;,
+    clientSecret: &#39;application_client_secret&#39;,
+    redirectUri: &#39;https://yourapplication.com/auth/callback&#39;,
+    tokenAlgorithm: &#39;RS256&#39;
+);
+
+$auth0 = new Auth0($configuration);
+</code></pre>
+<p>Alternatively, you can use an array to configure the base <code>Auth0</code> class, and a <code>SdkConfiguration</code> will instantiate for you. Key names must match the same camelCase format of the constructor arguments for <code>SdkConfiguration.</code></p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+
+// PHP 7.4-compatible array syntax
+$auth0 = new Auth0([
+    &#39;domain&#39; =&gt; &#39;your-tenant.auth0.com&#39;,
+    &#39;clientId&#39; =&gt; &#39;application_client_id&#39;,
+    &#39;clientSecret&#39; =&gt; &#39;application_client_secret&#39;,
+    &#39;redirectUri&#39; =&gt; &#39;https://yourapplication.com/auth/callback&#39;,
+    &#39;tokenAlgorithm&#39; =&gt; &#39;HS256&#39;
+]);
+</code></pre>
+<p>After initializing the Auth0 SDK with your configuration, you can keep a reference to the <code>SdkConfiguration</code> within your app so you can make changes later. The SDK automatically recognizes changes to your <code>SdkConfiguration</code> and uses them.</p>
+<pre><code class="lang-PHP">$configuration = new SdkConfiguration(
+    domain: &#39;your-tenant.auth0.com&#39;,
+    clientId: &#39;application_client_id&#39;,
+    clientSecret: &#39;application_client_secret&#39;,
+    redirectUri: &#39;https://yourapplication.com/auth/callback&#39;,
+    tokenAlgorithm: &#39;RS256&#39;
+);
+
+$auth0 = new Auth0($configuration);
+
+// Prints &#39;your-tenant.auth0.com&#39;
+echo $configuration-&gt;getDomain();
+
+// Change the configuration
+$configuration-&gt;setDomain(&#39;another-tenant.auth0.com&#39;);
+
+// Prints &#39;another-tenant.auth0.com&#39;
+echo $configuration-&gt;getDomain();
+
+// Will authenticate the user with &#39;another-tenant.auth0.com&#39;
+$auth-&gt;login();
+</code></pre>
+<h3 id="updated-configuration-options">Updated Configuration Options</h3>
+<p>Some options names have changed for clarity. It would be best to reference the <code>SdkConfiguration</code> constructor comments for an up-to-date list, as there may be new additions with later releases. At the time of this guide&#39;s writing, these options are available:</p>
+<pre><code class="lang-text">$strategy              string|null                    Defaults to &#39;webapp&#39;. Should be assigned either &#39;api&#39;, &#39;management&#39;, or &#39;webapp&#39; to specify the type of application the SDK is being applied to. Determines what configuration options will be required at initialization.
+$domain                string|null                    Auth0 domain for your tenant, found in your Auth0 Application settings.
+$customDomain          string|null                    If you have configured Auth0 to use a custom domain, configure it here.
+$clientId              string|null                    Client ID, found in the Auth0 Application settings.
+$redirectUri           string|null                    Authentication callback URI, as defined in your Auth0 Application settings.
+$clientSecret          string|null                    Client Secret, found in the Auth0 Application settings.
+$audience              array&lt;string&gt;|null             One or more API identifiers, found in your Auth0 API settings. The SDK uses the first value for building links. If provided, at least one of these values must match the &#39;aud&#39; claim to validate an ID Token successfully.
+$organization          array&lt;string&gt;|null             One or more Organization IDs, found in your Auth0 Organization settings. The SDK uses the first value for building links. If provided, at least one of these values must match the &#39;org_id&#39; claim to validate an ID Token successfully.
+$usePkce               bool                           Defaults to true. Use PKCE (Proof Key of Code Exchange) with Authorization Code Flow requests. See https://auth0.com/docs/flows/call-your-api-using-the-authorization-code-flow-with-pkce
+$scope                 array&lt;string&gt;                  One or more scopes to request for Tokens. See https://auth0.com/docs/scopes
+$responseMode          string                         Defaults to &#39;query.&#39; Where to extract request parameters from, either &#39;query&#39; for GET or &#39;form_post&#39; for POST requests.
+$responseType          string                         Defaults to &#39;code.&#39; Use &#39;code&#39; for server-side flows and &#39;token&#39; for application side flow.
+$tokenAlgorithm        string                         Defaults to &#39;RS256&#39;. Algorithm to use for Token verification. Expects either &#39;RS256&#39; or &#39;HS256&#39;.
+$tokenJwksUri          string|null                    URI to the JWKS when verifying RS256 tokens.
+$tokenMaxAge           int|null                       The maximum window of time (in seconds) since the &#39;auth_time&#39; to accept during Token validation.
+$tokenLeeway           int                            Defaults to 60. Leeway (in seconds) to allow during time calculations with Token validation.
+$tokenCache            CacheItemPoolInterface|null    A PSR-6 compatible cache adapter for storing JSON Web Key Sets (JWKS).
+$tokenCacheTtl         int                            How long (in seconds) to keep a JWKS cached.
+$httpClient            ClientInterface|null           A PSR-18 compatible HTTP client to use for API requests.
+$httpMaxRetries        int                            When a rate-limit (429 status code) response is returned from the Auth0 API, automatically retry the request up to this many times.
+$httpRequestFactory    RequestFactoryInterface|null   A PSR-17 compatible request factory to generate HTTP requests.
+$httpResponseFactory   ResponseFactoryInterface|null  A PSR-17 compatible response factory to generate HTTP responses.
+$httpStreamFactory     StreamFactoryInterface|null    A PSR-17 compatible stream factory to create request body streams.
+$httpTelemetry         bool                           Defaults to true. If true, API requests will include telemetry about the SDK and PHP runtime version to help us improve our services.
+$sessionStorage        StoreInterface|null            Defaults to use cookies. A StoreInterface-compatible class for storing Token state.
+$sessionStorageId      string                         Defaults to &#39;auth0_session&#39;. The namespace to prefix session items under.
+$cookieSecret          string|null                    The secret used to derive an encryption key for the user identity in a session cookie and to sign the transient cookies used by the login callback.
+$cookieDomain          string|null                    Defaults to value of HTTP_HOST server environment information. Cookie domain, for example &#39;www.example.com&#39;, for use with PHP sessions and SDK cookies. To make cookies visible on all subdomains then the domain must be prefixed with a dot like &#39;.example.com&#39;.
+$cookieExpires         int                            Defaults to 0. How long, in seconds, before cookies expire. If set to 0 the cookie will expire at the end of the session (when the browser closes).
+$cookiePath            string                         Defaults to &#39;/&#39;. Specifies path on the domain where the cookies will work. Use a single slash (&#39;/&#39;) for all paths on the domain.
+$cookieSecure          bool                           Defaults to false. Specifies whether cookies should ONLY be sent over secure connections.
+$persistUser           bool                           Defaults to true. If true, the user data will persist in session storage.
+$persistIdToken        bool                           Defaults to true. If true, the Id Token will persist in session storage.
+$persistAccessToken    bool                           Defaults to true. If true, the Access Token will persist in session storage.
+$persistRefreshToken   bool                           Defaults to true. If true, the Refresh Token will persist in session storage.
+$transientStorage      StoreInterface|null            Defaults to use cookies. A StoreInterface-compatible class for storing ephemeral state data, such as nonces.
+$transientStorageId    string                         Defaults to &#39;auth0_transient&#39;. The namespace to prefix transient items under.
+$queryUserInfo         bool                           Defaults to false. If true, query the /userinfo endpoint during an authorization code exchange.
+$managementToken       string|null                    An Access Token to use for Management API calls. If there isn&#39;t one specified, the SDK will attempt to get one for you using your $clientSecret.
+$managementTokenCache  CacheItemPoolInterface|null    A PSR-6 compatible cache adapter for storing generated management access tokens.
+$eventListenerProvider ListenerProviderInterface|null A PSR-14 compatible event listener provider, for interfacing with events triggered by the SDK.
+</code></pre>
+<p>↗ <a href="https://www.php-fig.org/psr/psr-6/">Learn more about PSR-6 caches.</a><br />
+↗ <a href="https://www.php-fig.org/psr/psr-14/">Learn more about PSR-14 Event Dispatchers.</a><br />
+↗ <a href="https://www.php-fig.org/psr/psr-17/">Learn more about PSR-17 HTTP Factories,</a> which are used to create <a href="https://www.php-fig.org/psr/psr-7/">PSR-7 HTTP messages.</a><br />
+↗ <a href="https://www.php-fig.org/psr/psr-18/">Learn more about the PSR-18 HTTP Client standard.</a><br />
+↗ <a href="https://packagist.org/search/?query=PSR-6&amp;type=library&amp;tags=psr%206">Find PSR-6 cache libraries on Packagist.</a><br />
+↗ <a href="https://packagist.org/search/?query=PSR-17&amp;type=library&amp;tags=psr%2017">Find PSR-17 HTTP factory libraries on Packagist.</a><br />
+↗ <a href="https://packagist.org/search/?query=PSR-18&amp;type=library&amp;tags=psr%2018">Find PSR-18 HTTP client libraries on Packagist.</a></p>
+<h3 id="using-the-new-authentication-and-management-factories">Using the new Authentication and Management Factories</h3>
+<p>SDK v8.0 offers a cleaner approach of accessing the Authentication and Management API sub-classes without having to reconfigure them independently: configure the base <code>Auth0</code> class, and use the factory methods to configure these API sub-classes for you:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+
+// Configure just once:
+$auth0 = new Auth0([
+    &#39;domain&#39; =&gt; &#39;your-tenant.auth0.com&#39;,
+    &#39;clientId&#39; =&gt; &#39;application_client_id&#39;,
+    &#39;clientSecret&#39; =&gt; &#39;application_client_secret&#39;,
+    &#39;redirectUri&#39; =&gt; &#39;https://yourapplication.com/auth/callback&#39;,
+    &#39;tokenAlgorithm&#39; =&gt; &#39;HS256&#39;
+]);
+
+// Returns an instance already configured for you.
+$authentication = $auth0-&gt;authentication();
+$management = $auth0-&gt;management();
+
+// Or, a fluent example:
+$response = $auth0-&gt;management()-&gt;users()-&gt;getAll();
+</code></pre>
+<h3 id="support-for-psr-18-and-psr-17-factories">Support for PSR-18 and PSR-17 factories</h3>
+<p>Previous versions of the Auth0 PHP SDK had a dependency on <a href="http://guzzlephp.org/">Guzzle</a> for issuing network requests. SDK v8.0 uses a more modern approach of accepting developer-supplied <a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> and <a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> factory interfaces for making these requests. We strongly encourage you to pass the factories of your choice during SDK configuration. The SDK will make a best-effort attempt at auto-discovering any compatible libraries present in your application when none are specified.</p>
+<p>As an example, let&#39;s say your application is already incorporating <a href="https://github.com/kriswallsmith/Buzz">Buzz</a> and <a href="https://github.com/Nyholm/psr7">Nylom&#39;s PSR-7 implementation</a>, which include PSR-18 and PSR-17 factories, respectively. Pass these to the SDK to use them:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Configuration\SdkConfiguration;
+use Buzz\Client\MultiCurl;
+use Nyholm\Psr7\Factory\Psr17Factory;
+
+// PSR-17 HTTP Factory (creates http requests and responses)
+$httpFactory = new Psr17Factory();
+
+ // PSR-18 HTTP Client (delivers http requests created by the PSR-17 factory above)
+$httpClient = new MultiCurl($httpFactory);
+
+$configuration = new SdkConfiguration(
+    domain: &#39;your-tenant.auth0.com&#39;,
+    clientId: &#39;application_client_id&#39;,
+    redirectUri: &#39;https://yourapplication.com/auth/callback&#39;,
+
+    // Specify a PSR-18 HTTP client factory:
+    httpClient: $httpClient
+
+    // Specify PSR-17 request/response factories:
+    httpRequestFactory: $httpFactory
+    httpResponseFactory: $httpFactory
+    httpStreamFactory: $httpFactory
+);
+
+$auth0 = new Auth0($configuration);
+</code></pre>
+<p>The libraries specified above are simply examples. Any libraries that support the PSR-18 and PSR-17 standards will work.</p>
+<p>↗ <a href="https://docs.php-http.org/en/latest/clients/guzzle7-adapter.html">Guzzle 7 natively supports PSR-18.</a><br />
+↗ <a href="https://github.com/php-http/guzzle6-adapter">Guzzle 6 is compatible with an adaptor library.</a><br />
+↗ <a href="https://symfony.com/doc/current/http_client.html#psr-18-and-psr-17">Symfony&#39;s HttpClient component natively supports PSR-18.</a><br />
+↗ <a href="https://docs.php-http.org/en/latest/clients.html">Learn about other compatible libraries from PHP-HTTP.</a><br />
+↗ <a href="https://packagist.org/search/?query=PSR-17&amp;type=library&amp;tags=psr%2017">Search packagist for other PSR-17 HTTP factory libraries.</a><br />
+↗ <a href="https://packagist.org/search/?query=PSR-18&amp;type=library&amp;tags=psr%2018">Search packagist for other PSR-18 HTTP client libraries.</a></p>
+<h3 id="support-for-psr-7-responses">Support for PSR-7 responses</h3>
+<p>Most functions that issue network requests now return <a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> message interfaces, which allow you a greater deal of control over handling the response, such as troubleshooting errors and analyzing headers. We&#39;ve included a utility class for simplifying working with these responses in general use cases:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Utility\HttpResponse;
+
+$auth0 = new Auth0(/* ...configuration */);
+
+// Get all users via fluent interface
+$response = $auth0-&gt;management()-&gt;users()-&gt;getAll();
+
+if (HttpResponse::wasSuccessful($response)) { // Checks that the status code was 200
+    $users = HttpResponse::decodeContent($response); // Parses the response body as JSON and returns the resulting object
+    print_r($users);
+
+    $headers = HttpResponse::getHeaders($response); // Get an array containing all the headers attached to the response.
+    print_r($headers);
+}
+</code></pre>
+<p>Alternatively, you can achieve the same results with the native PSR-7 standard API without using the <code>HttpResponse</code> utility class:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Utility\HttpResponse;
+
+$auth0 = new Auth0(/* ...configuration */);
+
+// Get all users via fluent interface
+$response = $auth0-&gt;management()-&gt;users()-&gt;getAll();
+
+if ($response-&gt;getStatusCode() === 200) { // Checks that the status code was 200
+    print_r(json_decode($response-&gt;getBody()-&gt;__toString(), true, 512, JSON_THROW_ON_ERROR)); // Print the parsed JSON response body
+    print_r($response-&gt;getHeaders()); // Print the array containing all the headers attached to the response.
+}
+</code></pre>
+<h3 id="using-the-new-field-filtering-and-pagination-api">Using the new field filtering and pagination API</h3>
+<p>A new argument has been added to most network endpoints, accepting a new <code>RequestOptions</code> class type. <code>RequestOptions</code> allows you to specify field-filtered and paginated requests easily:</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Utility\Request\{RequestOptions, FilteredRequest, PaginatedRequest};
+
+$auth0 = new Auth0(/* ...configuration */);
+
+// Fluent example:
+$response = $auth0-&gt;management()-&gt;users()-&gt;getAll(
+    request: new RequestOptions(
+        fields: new FilteredRequest(
+            fields: [&#39;user_id&#39;, &#39;email&#39;],
+            includeFields: true
+        ),
+        pagination: new PaginatedRequest(
+            page: 0,
+            perPage: 50,
+            includeTotals: true
+        )
+    )
+);
+</code></pre>
+<p>↗ <a href="https://auth0.com/docs/api#pagination">Learn more about paginating Auth0 API endpoints here.</a>.</p>
+<h3 id="auto-pagination-support-available">Auto-pagination support available</h3>
+<p>You can use the new <code>HttpResponsePaginator</code> utility class with endpoints that support pagination to return a PHP-native iterator type, which will automatically request new pages of results as you loop through it.</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+use Auth0\SDK\Utility\Request\{RequestOptions, FilteredRequest, PaginatedRequest};
+
+$auth0 = new Auth0(/* ...configuration */);
+
+// NOTE: Auto-pagination will only work when include_totals is enabled:
+$response = $auth0-&gt;management()-&gt;users()-&gt;getAll(
+    request: new RequestOptions(
+        pagination: new PaginatedRequest(
+            page: 0,
+            perPage: 50,
+            includeTotals: true
+        )
+    )
+);
+
+// Return an HttpResponsePaginator pre-configured with our request above:
+$users = $auth0-&gt;management()-&gt;getResponsePaginator();
+
+// Count will use the total results available as reported from the API rather than what is loaded into memory.
+echo &#39;There are &#39; . count($users) . &#39; results available from the API.&#39;;
+
+// Our new iterator will make new, paginated network requests as necessary to retrieve more results:
+foreach ($users as $user) {
+    print_r($user);
+}
+
+// You can find out how many network requests were made with this helper method:
+echo &#39;We made &#39; . $users-&gt;countNetworkRequests() . &#39; paginated network requests.&#39;;
+</code></pre>
+<p>⚠️ Note that SDK 8.0&#39;s <code>HttpResponsePaginator</code> does not currently support checkpoint pagination. This will be introduced in a later release.</p>
+<h3 id="using-the-new-auth0-getcredentials-method-to-retrieve-session-credentials">Using the new <code>Auth0::getCredentials()</code> method to retrieve session credentials</h3>
+<p><code>Auth0::getCredentials</code> is a new convenience function that returns the available Id Token, Access Token, Access Token expiration timestamp, and Refresh Token (if one is available) when they are available from session storage. It also returns an <code>accessTokenExpired</code> bool value that you can more easily compare to decide if you need to renew or prompt to log back in.</p>
+<pre><code class="lang-PHP">use Auth0\SDK\Auth0;
+
+$sdk = new Auth0(/* ... configuration */);
+
+// If we&#39;ve just returned from the callback, remove the ?code parameter from the query by redirecting to index route.
+if ($sdk-&gt;getRequestParameter(&#39;code&#39;)) {
+    header(&quot;Location: /&quot;);
+    exit;
+}
+
+// Use the new helper to silently get state.
+$credentials = $sdk-&gt;getCredentials();
+
+// If there&#39;s no session, begin authentication flow. Alternatively you could render the app in guest mode, or offer a login interstitial, etc.
+if (! $credentials) {
+   $sdk-&gt;login();
+}
+
+// We have a session available.
+if ($credentials) {
+    // If the access token has expired, try to renew it.
+    if ($credentials-&gt;accessTokenExpired) {
+        try {
+            $sdk-&gt;renew();
+        } catch (\Auth0\SDK\Exception\StateException $exception) {
+            // Couldn&#39;t renew the token, we might not have one based on our requested scopes. Let&#39;s fallback to starting a fresh authentication flow.
+            $sdk-&gt;login();
+        }
+    }
+
+    // Everything is good. Let&#39;s echo info about the user as an example.
+    print_r($credentials-&gt;user);
+}
+</code></pre>
+<p>This saves you from needing to call <code>Auth0::getIdToken()</code>, <code>Auth0::getUser()</code>, <code>Auth0::getAccessToken()</code>, <code>Auth0::getRefreshToken()</code>, and <code>Auth0::getAccessTokenExpiration()</code> separately if you simply want to inspect credentials. <code>Auth0::getCredentials()</code> will not throw an error if credentials aren&#39;t available, it will simply return a null value.</p>
+<hr>
+<h2 id="upgrading-from-v5-x-v7-x">Upgrading from v5.x → v7.x</h2>
+<p>The v7 major release adds some new features, removes several deprecated methods and classes, and changes how some applications need to be configured. Please read through this guide to make sure your application is up to date before upgrading to v7.</p>
+<p>Only potentially breaking changes are covered in this guide. For a list of all changes for this major, see <a href="https://github.com/auth0/auth0-PHP/issues?q=is%3Aclosed+milestone%3A7.0.0">the 7.0.0 milestone on GitHub</a>.</p>
+<h3 id="new-minimum-php-version-7-1">New minimum PHP version: 7.1</h3>
+<p>The v7 release requires PHP 7.1 or later to enable a number of helpful features like type hinting and null coalescing.</p>
+<h3 id="auth0-class-configuration-changes">Auth0 class configuration changes</h3>
+<p>A number of breaking changes were made to the <code>Auth0</code> class configuration passed in at initialization.</p>
+<p>The main breaking change is only for applications that accept HS256 ID tokens. If your application is set to accept ID tokens signed using the HS256 algorithm, we recommend changing that to <code>RS256</code> in the Auth0 Application &gt; Settings tab &gt; Advanced settings &gt; OAuth tab &gt; JsonWebToken Signature Algorithm field before upgrading and leaving the <code>id_token_alg</code> configuration key unset. If your application cannot be changed for some reason, set the <code>id_token_alg</code> configuration key to <code>HS256</code>, like so:</p>
+<pre><code class="lang-PHP">$auth0 = new Auth0([
+    &#39;domain&#39; =&gt; &#39;your-tenant.auth0.com&#39;,
+    &#39;client_id&#39; =&gt; &#39;application_client_id&#39;,
+    &#39;client_secret&#39; =&gt; &#39;application_client_secret&#39;,
+    &#39;redirect_uri&#39; =&gt; &#39;https://yourapplication.com/auth/callback&#39;,
+    &#39;id_token_alg&#39; =&gt; &#39;HS256&#39;
+]);
+</code></pre>
+<p>The <code>id_token_aud</code> and <code>id_token_iss</code> configuration keys have been removed, and their values will now be ignored.</p>
+<p>The <code>state_handler</code> configuration key has been removed, and the <code>transient_store</code> configuration key has been added. See the <strong>State and nonce handling</strong> section below for more information about the changes with state handling.</p>
+<p>The ability to pass <code>false</code> in the <code>store</code> configuration key has been removed. Set <code>store</code> to an instance of <code>EmptyStore</code> or set all <code>persist_*</code> configuration keys to <code>false</code> to skip all persistence.</p>
+<p>The <code>cache_handler</code> configuration key must now be an instance of <code>Psr\SimpleCache\CacheInterface.</code> See the <strong>Cache handling</strong> section below for more information.</p>
+<p>The default <code>secret_base64_encoded</code> value is now <code>false</code> and is no longer stored in a property.</p>
+<p>The <code>client_secret</code> configuration key is no longer required for class initialization (but will throw an exception in certain methods when required). If <code>secret_base64_encoded</code> is set to <code>true</code> then then the <code>clientSecret</code> property will now contain the decoded secret. If your application is using an encoded secret, this encoding can be turned off by rotating the client secret in the Auth0 Application settings.</p>
+<p>The <code>session_cookie_expires</code> configuration key has been removed. The session cookie expiration should be managed in the application. If you were using this setting before, <a href="https://www.php.net/manual/en/function.session-set-cookie-params.php">see the PHP core function session_set_cookie_params()</a> to set this value after upgrading.</p>
+<p>The <code>session_base_name</code> configuration key has been removed. Instead, pass an instance of <code>StoreInterface</code> in the <code>store</code> configuration key with the modified name.</p>
+<p>The <code>skip_userinfo</code> configuration key now defaults to <code>true.</code> This means that the persisted user identity will now come from the ID token rather than a call to the userinfo endpoint. This can be set to <code>false</code> to return to the behavior in v5.</p>
+<p>The ENV variables <code>AUTH0_DOMAIN</code>, <code>AUTH0_CLIENT_ID</code>, and <code>AUTH0_REDIRECT_URI</code> will now be used automatically for the <code>domain</code>, <code>client_id,</code> and <code>redirect_uri</code> configuration keys, respectively.</p>
+<p>The <code>debug</code> configuration key was removed.</p>
+<h3 id="cache-handling">Cache handling</h3>
+<p>Cache handling has been changed in v7 to conform to the PSR-16 standard (see the discussion <a href="https://github.com/auth0/auth0-PHP/issues/282">here</a>). Objects passed to the <code>cache_handler</code> configuration key in <code>Auth0,</code> and the first parameter of the <code>JWKFetcher</code> class should be instances of <code>Psr\SimpleCache\CacheInterface.</code></p>
+<h3 id="state-and-nonce-handling">State and nonce handling</h3>
+<p>The handling for transient authentication data, such as <code>state</code> and <code>nonce,</code> has been changed.</p>
+<p>In an effort to enforce security standards set forth in the OAuth and OpenID Connect specifications, <code>state</code> checking on the callback route and <code>nonce</code> checking for all received ID tokens is now mandatory. Applications that require IdP-initiated sign-on should add a login route that uses <code>Auth0-&gt;getLoginUrl()</code> to redirect through Auth0 with valid state and nonce values. The URL to this route should be saved to the <strong>Application Login URI</strong> field in your Auth0 Application to assist with this scenario.</p>
+<p>The handling for these values was changed from PHP session-stored values to cookies using the new <code>CookieStore</code> class. This was done, so PHP session usage was not required and to assist with applications using a <code>form_post</code> response mode. This change may require server-level white-listing of cookie names (<code>auth0__nonce</code> and <code>auth0__state</code> by default) on some managed hosts. The <code>transient_store</code> configuration key in the <code>Auth0</code> class can be used to switch back to PHP sessions or provide another method.</p>
+<p>The default state key was changed from <code>auth0__webauth_state</code> to <code>auth0__state</code>.</p>
+<h3 id="classes-and-interfaces-removed">Classes and Interfaces removed</h3>
+<p>The following classes were removed in v7:</p>
+<ul>
+<li>Class <code>Firebase\JWT\JWT</code> provided by the <code>firebase/php-jwt</code> package was replaced with classes from the <code>lcobucci/jwt</code> package</li>
+<li>Class <code>JWTVerifier</code> was removed, see the <code>Auth0-&gt;decodeIdToken()</code> method for how to use the replacement classes</li>
+<li>Class <code>StateHandler</code> was removed, see the <strong>State and nonce handling</strong> section above for more information</li>
+<li>Class <code>SessionStateHandler</code> was removed. See the <strong>State and nonce handling</strong> section above for more information</li>
+<li>Class <code>DummyStateHandler</code> was removed. See the <strong>State and nonce handling</strong> section above for more information</li>
+<li>Interface <code>CacheHandler</code> was removed. See the <strong>Cache handling</strong> section above for more information</li>
+<li>Class <code>FileSystemCacheHandler</code> was removed. See the <strong>Cache handling</strong> section above for more information</li>
+<li>Class <code>TokenGenerator</code> was removed, no replacement provided</li>
+<li>Class <code>Oauth2Client</code> was removed, no replacement provided</li>
+<li>Class <code>Auth0Api</code> was removed, no replacement provided</li>
+<li>Class <code>Auth0AuthApi</code> was removed, no replacement provided</li>
+<li>Class <code>Auth0JWT</code> was removed, no replacement provided</li>
+</ul>
+<h3 id="classes-changes">Classes changes</h3>
+<p>The following class constructors were changed in v7:</p>
+<ul>
+<li>Class <code>Authentication</code> now requires a <code>client_id</code> parameter</li>
+<li>Class <code>NoCacheHandler</code> now implements <code>Psr\SimpleCache\CacheInterface</code></li>
+<li>Class <code>JWKFetcher</code> now requires an instance of <code>Psr\SimpleCache\CacheInterface</code> as the first construct parameter</li>
+<li>Class constant <code>SessionStore::COOKIE_EXPIRES</code> was removed</li>
+<li>Class <code>SessionStore</code> no longer accepts a 2nd constructor argument to adjust the session cookie expiration; <a href="https://www.php.net/manual/en/function.session-set-cookie-params.php">see the PHP core function session_set_cookie_params()</a> to set this value in v7</li>
+<li>Class <code>Auth0\SDK\API\Header\Authorization\AuthorizationBearer</code> was changed to <code>Auth0\SDK\API\Header\AuthorizationBearer</code></li>
+</ul>
+<h3 id="methods-changed">Methods changed</h3>
+<p>The following methods were changed in a breaking way in v7:</p>
+<ul>
+<li>Public method <code>RequestBuilder-&gt;withHeader()</code> now only accepts a <code>Header</code> instance as an argument.</li>
+<li>Public method <code>Authentication-&gt;code_exchange()</code> now throws an <code>ApiException</code> if class-level <code>client_secret</code> is empty</li>
+<li>Public method <code>Authentication-&gt;client_credentials()</code> now throws an <code>ApiException</code> if <code>audience</code> is empty</li>
+<li>Public method <code>Authentication-&gt;get_authorize_link()</code> now adds class-level <code>scope</code> and <code>audience</code> if none are passed in</li>
+</ul>
+<h3 id="methods-removed">Methods removed</h3>
+<p>The following methods were removed in v7:</p>
+<ul>
+<li>Public magic method <code>ApiClient-&gt;__call()</code> was removed, use <code>ApiClient-&gt;method()</code> to indicate an HTTP verb to use</li>
+<li>Public magic method <code>RequestBuilder-&gt;__call()</code> was removed, use <code>RequestBuilder-&gt;addPath()</code> to add paths</li>
+<li>Public method <code>RequestBuilder-&gt;addPathVariable()</code> was removed, use <code>RequestBuilder-&gt;addPath()</code> to add paths</li>
+<li>Public method <code>RequestBuilder-&gt;dump()</code> was removed, no replacement provided</li>
+<li>Public method <code>RequestBuilder-&gt;withParams()</code> was removed, use <code>RequestBuilder-&gt;withDictParams()</code> to add params</li>
+<li>Public method <code>InformationHeaders-&gt;setEnvironment()</code> was removed, no replacement provided</li>
+<li>Public method <code>InformationHeaders-&gt;setDependency()</code> was removed, no replacement provided</li>
+<li>Public method <code>InformationHeaders-&gt;setDependencyData()</code> was removed, no replacement provided</li>
+<li>Public method <code>ClientGrants-&gt;get()</code> was removed, no replacement provided</li>
+<li>Public method <code>Users-&gt;search()</code> was removed, use <code>Users-&gt;getAll()</code> instead</li>
+<li>Public method <code>Users-&gt;unlinkDevice()</code> was removed, no replacement provided</li>
+<li>Public method <code>JWKFetcher-&gt;requestJwkX5c()</code> was removed, use <code>JWKFetcher-&gt;getKeys()</code> instead</li>
+<li>Public method <code>JWKFetcher-&gt;findJwk()</code> was removed, use <code>JWKFetcher-&gt;getKeys()</code> instead</li>
+<li>Public method <code>JWKFetcher-&gt;subArrayHasEmptyFirstItem()</code> was removed, no replacement provided</li>
+<li>Public method <code>JWKFetcher-&gt;fetchKeys()</code> was removed, use <code>JWKFetcher-&gt;getKeys()</code> instead</li>
+<li>Public method <code>Authentication-&gt;authorize_with_ro()</code> was removed, no replacement provided</li>
+<li>Public method <code>Authentication-&gt;authorize_with_accesstoken()</code> was removed, no replacement provided</li>
+<li>Public method <code>Authentication-&gt;impersonate()</code> was removed, no replacement provided</li>
+<li>Public method <code>Authentication-&gt;email_code_passwordless_verify()</code> was removed, no replacement provided</li>
+<li>Public method <code>Authentication-&gt;sms_code_passwordless_verify()</code> was removed, no replacement provided</li>
+<li>Public method <code>Auth0-&gt;setDebugger()</code> was removed, no replacement provided</li>
+<li>Protected method <code>Authentication-&gt;setApiClient()</code> was removed, no replacement provided</li>
+<li>Protected method <code>Management-&gt;setApiClient()</code> was removed, no replacement provided</li>
+</ul>
+<h3 id="class-properties-removed">Class properties removed</h3>
+<p>The following properties were removed in v7:</p>
+<ul>
+<li>Public property <code>Management-&gt;blacklists</code> was made private, replaced by <code>Management-&gt;blacklists()</code></li>
+<li>Public property <code>Management-&gt;clients</code> was made private, replaced by <code>Management-&gt;clients()</code></li>
+<li>Public property <code>Management-&gt;client_grants</code> was made private, replaced by <code>Management-&gt;clientGrants()</code></li>
+<li>Public property <code>Management-&gt;connections</code> was made private, replaced by <code>Management-&gt; connections()</code></li>
+<li>Public property <code>Management-&gt;deviceCredentials</code> was made private, replaced by <code>Management-&gt;deviceCredentials()</code></li>
+<li>Public property <code>Management-&gt;emails</code> was made private, replaced by <code>Management-&gt;emails()</code></li>
+<li>Public property <code>Management-&gt;emailTemplates</code> was made private, replaced by <code>Management-&gt;emailTemplates()</code></li>
+<li>Public property <code>Management-&gt;grants</code> was made private, replaced by <code>Management-&gt;grants()</code></li>
+<li>Public property <code>Management-&gt;jobs</code> was made private, replaced by <code>Management-&gt;jobs()</code></li>
+<li>Public property <code>Management-&gt;logs</code> was made private, replaced by <code>Management-&gt;logs()</code></li>
+<li>Public property <code>Management-&gt;roles</code> was made private, replaced by <code>Management-&gt;roles()</code></li>
+<li>Public property <code>Management-&gt;rules</code> was made private, replaced by <code>Management-&gt;rules()</code></li>
+<li>Public property <code>Management-&gt;resource_servers</code> was made private, replaced by <code>Management-&gt;resourceServers()</code></li>
+<li>Public property <code>Management-&gt;stats</code> was made private, replaced by <code>Management-&gt;stats()</code></li>
+<li>Public property <code>Management-&gt;tenants</code> was made private, replaced by <code>Management-&gt;tenants()</code></li>
+<li>Public property <code>Management-&gt;tickets</code> was made private, replaced by <code>Management-&gt;tickets()</code></li>
+<li>Public property <code>Management-&gt;userBlocks</code> was made private, replaced by <code>Management-&gt;userBlocks()</code></li>
+<li>Public property <code>Management-&gt;users</code> was made private, replaced by <code>Management-&gt;users()</code></li>
+<li>Public property <code>Management-&gt;usersByEmail</code> was made private, replaced by <code>Management-&gt;usersByEmail()</code></li>
+<li>Public static property <code>Auth0::$URL_MAP</code> was removed</li>
+<li>Protected property <code>Auth0-&gt;stateHandler</code> was removed</li>
+<li>Protected property <code>Auth0-&gt;clientSecretEncoded</code> was removed</li>
+<li>Protected property <code>Auth0-&gt;debugMode</code> was removed</li>
+<li>Protected property <code>Auth0-&gt;debugger</code> was removed</li>
+<li>Protected property <code>SessionStore-&gt;session_cookie_expires</code> was removed</li>
+</ul>
+
+      </body>
+    </html>

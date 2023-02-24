@@ -1,0 +1,934 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="changelog">CHANGELOG</h1>
+<h2 id="8-2-1-2022-06-06-"><a href="https://github.com/auth0/auth0-PHP/tree/8.2.1">8.2.1</a> (2022-06-06)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.2.0..8.2.1">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fixed an issue in <code>Auth0\SDK\Configuration\SdkConfiguration</code> where <code>customDomain</code> was not properly formatted in some configurations, leading to inconsistencies in certain SDK functions, such as Token validation. <code>customDomain</code> is now formatted identically to <code>domain</code>. <a href="https://github.com/auth0/auth0-PHP/pull/633">#633</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<p><strong>Closed Issues</strong></p>
+<ul>
+<li>Resolves <a href="https://github.com/auth0/auth0-PHP/issues/630">#630</a> (<a href="https://github.com/barasimumatik">barasimumatik</a>)</li>
+</ul>
+<h2 id="8-2-0-2022-04-25-"><a href="https://github.com/auth0/auth0-PHP/tree/8.2.0">8.2.0</a> (2022-04-25)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.1.0..8.2.0">Full Changelog</a></p>
+<p>Many thanks to our community contributors for this release: <a href="https://github.com/elbebass">elbebass</a>, <a href="https://github.com/fullstackfool">fullstackfool</a>, <a href="https://github.com/jeromefitzpatrick">jeromefitzpatrick</a>, <a href="https://github.com/marko-ilic">marko-ilic</a> and <a href="https://github.com/sepiariver">sepiariver</a>.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add bearer token extraction helper, <code>Auth0\SDK\Auth0::getBearerToken()</code> <a href="https://github.com/auth0/auth0-PHP/pull/620">#620</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Add configuration strategy constants, e.g. <code>Auth0\SDK\Configuration\SdkConfiguration::STRATEGY_API</code> <a href="https://github.com/auth0/auth0-PHP/pull/619">#619</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Throw <code>Auth0\SDK\Exception\InvalidTokenException</code> on JsonException <a href="https://github.com/auth0/auth0-PHP/pull/614">#614</a> (<a href="https://github.com/marko-ilic">marko-ilic</a>)</li>
+<li>Throw <code>Auth0\SDK\Exception\NetworkException</code> when Management API credential exchange fails <a href="https://github.com/auth0/auth0-PHP/pull/608">#608</a> (<a href="https://github.com/sepiariver">sepiariver</a>)</li>
+</ul>
+<p><strong>Documentation Contributions</strong></p>
+<ul>
+<li>Correct the new method name for get_authorize_link() for 8.x in UPGRADE.md <a href="https://github.com/auth0/auth0-PHP/pull/623">#623</a> (<a href="https://github.com/jeromefitzpatrick">jeromefitzpatrick</a>)</li>
+<li>Remove PHP 7.3 README note (deprecated) <a href="https://github.com/auth0/auth0-PHP/pull/610">#610</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Update CONTRIBUTING.md guidance <a href="https://github.com/auth0/auth0-PHP/pull/609">#609</a> (<a href="https://github.com/sepiariver">sepiariver</a>)</li>
+<li>Update README.md guidance on <code>management</code> configuration strategy (<code>domain</code> is required) <a href="https://github.com/auth0/auth0-PHP/pull/604">#604</a> (<a href="https://github.com/fullstackfool">fullstackfool</a>)</li>
+<li>Correct README.md typos in Management API example <a href="https://github.com/auth0/auth0-PHP/pull/602">#602</a> (<a href="https://github.com/elbebass">elbebass</a>)</li>
+</ul>
+<p><strong>Other Improvements</strong></p>
+<ul>
+<li>Relax <code>pestphp/pest-plugin-parallel</code> dev dependency from <code>^0.2</code> to <code>^0.2 || ^1.0</code> <a href="https://github.com/auth0/auth0-PHP/pull/617">#617</a></li>
+<li>Bump <code>firebase/php-jwt</code> dev dependency to <code>^6.0</code> <a href="https://github.com/auth0/auth0-PHP/pull/613">#613</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Add Semgrep to continous integration test suite <a href="https://github.com/auth0/auth0-PHP/pull/616">#616</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-1-0-2022-02-17-"><a href="https://github.com/auth0/auth0-PHP/tree/8.1.0">8.1.0</a> (2022-02-17)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.6..8.1.0">Full Changelog</a></p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add Attack Protection endpoints <a href="https://github.com/auth0/auth0-PHP/pull/597">#593</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-0-6-2022-01-25-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.6">8.0.6</a> (2022-01-25)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.5..8.0.6">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Auth0-&gt;renew(): now correctly updates all appropriate session details after a successful token refresh <a href="https://github.com/auth0/auth0-PHP/pull/593">#593</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-0-5-2022-01-04-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.5">8.0.5</a> (2022-01-04)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.4..8.0.5">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Auth0-&gt;exchange(): optimize setcookie() calls <a href="https://github.com/auth0/auth0-PHP/pull/591">#591</a> (<a href="https://github.com/Nebual">Nebual</a>)</li>
+</ul>
+<h2 id="8-0-4-2021-12-13-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.4">8.0.4</a> (2021-12-13)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.3...8.0.4">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Require <code>domain</code> configuration for <code>management</code> strategy <a href="https://github.com/auth0/auth0-PHP/pull/589">#589</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<p><strong>Documentation</strong></p>
+<ul>
+<li>Update UPGRADE.md with additional notes about <code>Auth0::login()</code> changes from v7. <a href="https://github.com/auth0/auth0-PHP/pull/585">#585</a> (<a href="https://github.com/BGehrels">BGehrels</a>)</li>
+<li>Update UPGRADE.md with additional notes about <code>Auth0::exchange()</code> changes from v7. <a href="https://github.com/auth0/auth0-PHP/pull/584">#584</a> (<a href="https://github.com/BGehrels">BGehrels</a>)</li>
+</ul>
+<p><strong>Tests</strong></p>
+<ul>
+<li>Add Semgrep to test suite <a href="https://github.com/auth0/auth0-PHP/pull/588">#588</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Upgrade test suite to use 8.1 GA (up from RC builds) <a href="https://github.com/auth0/auth0-PHP/pull/587">#587</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Fix warnings introduced in new Psalm update <a href="https://github.com/auth0/auth0-PHP/pull/586">#586</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-0-3-2021-11-01-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.3">8.0.3</a> (2021-11-01)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.2...8.0.1">Full Changelog</a></p>
+<p><strong>Changes</strong></p>
+<ul>
+<li>Introduce Interfaces to Final Classes <a href="https://github.com/auth0/auth0-PHP/pull/581">#581</a> (<a href="https://github.com/komando82">komando82</a>)</li>
+</ul>
+<h2 id="8-0-2-2021-10-18-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.2">8.0.2</a> (2021-10-18)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.1...8.0.2">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Resolve <code>SessionStore::purge()</code> not iterating over session storage when a falsey value is stored <a href="https://github.com/auth0/auth0-PHP/pull/577">#577</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-0-1-2021-09-23-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.1">8.0.1</a> (2021-09-23)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/8.0.0...8.0.1">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Simplify decoding of Access Tokens via <code>Auth0::decode()</code> <a href="https://github.com/auth0/auth0-PHP/pull/571">#534</a> (<a href="https://github.com/shadowhand">shadowhand</a>)</li>
+</ul>
+<h2 id="8-0-0-2021-09-20-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.0">8.0.0</a> (2021-09-20)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.0...8.0.0">Full Changelog</a></p>
+<p><strong>BEFORE YOU UPGRADE</strong></p>
+<ul>
+<li>This is a major release that includes breaking changes. Please see <a href="UPGRADE.md">UPGRADE.md</a> before upgrading. This release will require changes to your application.</li>
+<li>The SDK no longer specifically relies on Guzzle for network requests. Options for supplying your libraries of choice have been added through <a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> and <a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> configuration options.</li>
+<li>PHP 7.4 is now the minimum supported PHP version, but we encourage using PHP 8.0. PHP 7.4 will be the last supported 7.x release. This library follows <a href="https://www.php.net/supported-versions.php">the official support schedule for PHP</a>.</li>
+</ul>
+<p><strong>8.0 Highlights</strong></p>
+<ul>
+<li>Updated SDK API for more intuitive use and improved usability. Now follows fluent interface principles.</li>
+<li>Updated SDK API designed with PHP 8.0&#39;s named arguments as the encouraged interface method.</li>
+<li>New configuration object, SdkConfiguration, allows for dynamic changes within your application.</li>
+<li>Updated PHP language support, including typed properties and return types, are now used throughout the SDK.</li>
+<li>Added support for the following PHP-FIG standards interfaces:<ul>
+<li><a href="https://www.php-fig.org/psr/psr-6/">PSR-6</a> caches are now used for caching JWKs and Management API tokens.</li>
+<li><a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> HTTP messages are now returned by methods that initiate network requests.</li>
+<li><a href="https://www.php-fig.org/psr/psr-14/">PSR-14</a> events are now raised, allowing for deeper integration into the SDK&#39;s behavior.</li>
+<li><a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> HTTP factories are now used during network requests for generating PSR-7 messages.</li>
+<li><a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> HTTP clients are now supported, allowing you to choose your network client.</li>
+</ul>
+</li>
+<li>Improved Token handling system.</li>
+<li>Encrypted session cookies, with cookies being the default session handler. PHP sessions may be phased out in a future release.</li>
+<li>New Management API auto-pagination helper for iterating through API results.</li>
+<li><a href="https://auth0.com/docs/flows/call-your-api-using-the-authorization-code-flow-with-pkce">PKCE</a> is now enabled by default.</li>
+</ul>
+<p>For a complete overview of API changes, please see <a href="UPGRADE.md">UPGRADE.md</a>.</p>
+<p>For guidance on using the new configuration interface or SDK API, please see <a href="README.md">README.md</a>.</p>
+<h2 id="8-0-0-beta3-2021-09-03-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.0-BETA3">8.0.0-BETA3</a> (2021-09-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.0...8.0.0-BETA3">Full Changelog</a></p>
+<p><strong>Changes Since BETA2</strong></p>
+<ul>
+<li>Cookie namespace prefixes are now configurable from <code>SdkConfiguration</code> interface. <a href="https://github.com/auth0/auth0-PHP/pull/534">#534</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+<li>Improvements to and standardization of variable filtering rules. <a href="https://github.com/auth0/auth0-PHP/pull/535">#535</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Fixed Management API calls incorrectly converted child arrays into objects. <a href="https://github.com/auth0/auth0-PHP/pull/541">#541</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Fixed explicit <code>SdkConfiguration</code> object reference passing on arguments. <a href="https://github.com/auth0/auth0-PHP/pull/548">#548</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+<li>Performance improvements to session/cookie transient storage. <a href="https://github.com/auth0/auth0-PHP/pull/542">#542</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Add new <code>MemoryStore</code> storage medium for tests. <a href="https://github.com/auth0/auth0-PHP/pull/544">#544</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+<li>Add new <code>Psr6Store</code> storage medium. <a href="https://github.com/auth0/auth0-PHP/pull/549">#549</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+<li>Delay restoring session state (no longer occurs during constructor initialization; now just-in-time.) <a href="https://github.com/auth0/auth0-PHP/pull/550">#550</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Improve support for custom domains with new <code>customDomain</code> option in <code>SdkConfiguration</code> <a href="https://github.com/auth0/auth0-PHP/pull/554">#554</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Support for Actions API endpoints in Management SDK <a href="https://github.com/auth0/auth0-PHP/pull/551">#551</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Expand test coverage to 100% and transition to PEST test framework <a href="https://github.com/auth0/auth0-PHP/pull/552">#552</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="8-0-0-beta2-2021-08-06-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.0-BETA2">8.0.0-BETA2</a> (2021-08-06)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.0...8.0.0-BETA2">Full Changelog</a></p>
+<p><strong>Changes Since BETA1</strong></p>
+<ul>
+<li><code>Auth0\SDK\API\Management</code> endpoint factory magic methods documented for proper IDE hinting.</li>
+<li><code>Auth0\SDK\API\Authentication</code> and <code>Auth0\SDK\API\Management</code> create their HTTP client instances as needed when <code>getHttpClient()</code> is invoked, rather than at class initialization.</li>
+<li><code>Auth0\SDK\Configuration\SdkConfiguration</code> now supports passing a <code>strategy</code> option to customize what configuration options are necessary at initialization appropriate for different use cases. Defaults to the general use <code>webapp</code> with the same configuration requirements as previously used. See the <code>README</code> for more information.</li>
+<li><code>Auth0\SDK\Utility\HttpRequest</code> now intercepts <code>429</code> rate-limit errors from Auth0 API responses and will automatically retry these requests on your behalf, using an exponential backoff strategy. Defaults to 3 retry attempts, configurable with <code>httpMaxRetires</code> during SDK configuration up to 10, or 0 to opt-out of this behavior.</li>
+</ul>
+<h2 id="7-9-2-2021-08-03-"><a href="https://github.com/auth0/auth0-PHP/tree/7.9.2">7.9.2</a> (2021-08-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.1...7.9.2">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Add missing API2 POST /tickets/password-change params <a href="https://github.com/auth0/auth0-PHP/pull/523">#523</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-9-1-2021-07-06-"><a href="https://github.com/auth0/auth0-PHP/tree/7.9.1">7.9.1</a> (2021-07-06)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.0...7.9.1">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Replace deprated/removed GuzzleHttp\Psr7\build_query <a href="https://github.com/auth0/auth0-PHP/pull/500">#500</a> (<a href="https://github.com/bartvanraaij">bartvanraaij</a>)</li>
+</ul>
+<h2 id="8-0-0-beta1-2021-06-30-"><a href="https://github.com/auth0/auth0-PHP/tree/8.0.0-BETA1">8.0.0-BETA1</a> (2021-06-30)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.9.0...8.0.0-BETA1">Full Changelog</a></p>
+<p><strong>BEFORE YOU UPGRADE</strong></p>
+<ul>
+<li>This is a major release that includes breaking changes. Please see <a href="UPGRADE.md">UPGRADE.md</a> before upgrading. This release will require changes to your application.</li>
+<li>The SDK no longer specifically relies on Guzzle for network requests. Options for supplying your libraries of choice have been added through <a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> and <a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> configuration options.</li>
+<li>PHP 7.4 is now the minimum supported PHP version, but we encourage using PHP 8.0. PHP 7.4 will be the last supported 7.x release. This library follows <a href="https://www.php.net/supported-versions.php">the official support schedule for PHP</a>.</li>
+</ul>
+<p><strong>8.0 Highlights</strong></p>
+<ul>
+<li>Updated SDK API for more intuitive use and improved usability. Now follows fluent interface principles.</li>
+<li>Updated SDK API designed with PHP 8.0&#39;s named arguments as the encouraged interface method.</li>
+<li>New configuration object, SdkConfiguration, allows for dynamic changes within your application.</li>
+<li>Updated PHP language support, including typed properties and return types, are now used throughout the SDK.</li>
+<li>Added support for the following PHP-FIG standards interfaces:<ul>
+<li><a href="https://www.php-fig.org/psr/psr-6/">PSR-6</a> caches are now used for caching JWKs and Management API tokens.</li>
+<li><a href="https://www.php-fig.org/psr/psr-7/">PSR-7</a> HTTP messages are now returned by methods that initiate network requests.</li>
+<li><a href="https://www.php-fig.org/psr/psr-14/">PSR-14</a> events are now raised, allowing for deeper integration into the SDK&#39;s behavior.</li>
+<li><a href="https://www.php-fig.org/psr/psr-17/">PSR-17</a> HTTP factories are now used during network requests for generating PSR-7 messages.</li>
+<li><a href="https://www.php-fig.org/psr/psr-18/">PSR-18</a> HTTP clients are now supported, allowing you to choose your network client.</li>
+</ul>
+</li>
+<li>Improved Token handling system.</li>
+<li>Encrypted session cookies, with cookies being the default session handler. PHP sessions may be phased out in a future release.</li>
+<li>New Management API auto-pagination helper for iterating through API results.</li>
+<li><a href="https://auth0.com/docs/flows/call-your-api-using-the-authorization-code-flow-with-pkce">PKCE</a> is now enabled by default.</li>
+</ul>
+<p>For a complete overview of API changes, please see <a href="UPGRADE.md">UPGRADE.md</a>.</p>
+<p>For guidance on using the new configuration interface or SDK API, please see <a href="README.md">README.md</a>.</p>
+<h2 id="7-9-0-2021-05-03-"><a href="https://github.com/auth0/auth0-PHP/tree/7.9.0">7.9.0</a> (2021-05-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.8.0...7.9.0">Full Changelog</a></p>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Reintroduce Guzzle 6 support <a href="https://github.com/auth0/auth0-PHP/pull/489">#489</a> (<a href="https://github.com/marko-ilic">marko-ilic</a>)</li>
+<li>Update Auth0\SDK\Auth0::getState() visibility to public <a href="https://github.com/auth0/auth0-PHP/pull/498">#498</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-8-0-2021-03-19-"><a href="https://github.com/auth0/auth0-PHP/tree/7.8.0">7.8.0</a> (2021-03-19)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.7.0...7.8.0">Full Changelog</a></p>
+<p>This release expands Organizations support to the Management API client. Please see the README for details on Organizations, currently in closed beta testing.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add Organizations support to Management API Client <a href="https://github.com/auth0/auth0-PHP/pull/483">#483</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-7-0-2021-03-19-"><a href="https://github.com/auth0/auth0-PHP/tree/7.7.0">7.7.0</a> (2021-03-19)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.6.2...7.7.0">Full Changelog</a></p>
+<p>This release includes initial support for Organizations, a new feature from Auth0 currently in closed beta testing. Please see the updated README for usage instructions.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add Organizations support to Authentication API Client <a href="https://github.com/auth0/auth0-PHP/pull/482">#482</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Support client_id on /tickets/password-change <a href="https://github.com/auth0/auth0-PHP/pull/481">#481</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-6-2-2021-01-01-"><a href="https://github.com/auth0/auth0-PHP/tree/7.6.2">7.6.2</a> (2021-01-01)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.6.1...7.6.2">Full Changelog</a></p>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Ensure ?include_totals are handled properly on GET /users and GET /roles requests for Management API <a href="https://github.com/auth0/auth0-PHP/pull/476">#476</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-6-1-2021-01-01-"><a href="https://github.com/auth0/auth0-PHP/tree/7.6.1">7.6.1</a> (2021-01-01)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.6.0...7.6.1">Full Changelog</a></p>
+<p>This hotfix addresses an issue with a dependency reference.</p>
+<h2 id="7-6-0-2021-01-01-"><a href="https://github.com/auth0/auth0-PHP/tree/7.6.0">7.6.0</a> (2021-01-01)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.5.0...7.6.0">Full Changelog</a></p>
+<p>SDK 7.6 introduces support for <a href="https://www.php.net/releases/8.0/en.php">the newly released PHP 8.0</a> and drops supported for PHP 7.1 and 7.2 (which have reached their end of support cycles.) Please ensure you are running <a href="https://www.php.net/supported-versions.php">supported versions of PHP</a> in your environments.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>PHP 8.0 support <a href="https://github.com/auth0/auth0-PHP/pull/467">#467</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Static code analysis <a href="https://github.com/auth0/auth0-PHP/pull/470">#470</a> (<a href="https://github.com/FrontEndCoffee">FrontEndCoffee</a>)</li>
+</ul>
+<h2 id="7-5-0-2020-11-16-"><a href="https://github.com/auth0/auth0-PHP/tree/7.5.0">7.5.0</a> (2020-11-16)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.4.0...7.5.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>createPasswordChangeTicket doesn&#39;t support &#39;ttl_sec&#39; parameter <a href="https://github.com/auth0/auth0-PHP/issues/457">#457</a></li>
+<li>Make the CACHE_TTL used in the JWKFetcher configurable. <a href="https://github.com/auth0/auth0-PHP/issues/450">#450</a></li>
+<li>Allow programmatic clearing of cache values managed by Auth0Service <a href="https://github.com/auth0/auth0-PHP/issues/441">#441</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add support for Authorization Code Flow with PKCE <a href="https://github.com/auth0/auth0-PHP/pull/449">#449</a> (<a href="https://github.com/ls-youssef-jlidat">ls-youssef-jlidat</a>)</li>
+<li>Allow specifying TTL when creating password change tickets <a href="https://github.com/auth0/auth0-PHP/pull/463">#463</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Expand control over TTL/Caching in JWKFetcher <a href="https://github.com/auth0/auth0-PHP/pull/462">#462</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+<li>Add support for Management V2 users export job endpoint <a href="https://github.com/auth0/auth0-PHP/pull/461">#461</a> (<a href="https://github.com/evansims">evansims</a>)</li>
+</ul>
+<h2 id="7-4-0-2020-09-28-"><a href="https://github.com/auth0/auth0-PHP/tree/7.4.0">7.4.0</a> (2020-09-28)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.3.0...7.4.0">Full Changelog</a></p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add support for new identity field for email verifications <a href="https://github.com/auth0/auth0-PHP/pull/455">#455</a> (<a href="https://github.com/jimmyjames">jimmyjames</a>)</li>
+</ul>
+<h2 id="7-3-0-2020-08-27-"><a href="https://github.com/auth0/auth0-PHP/tree/7.3.0">7.3.0</a> (2020-08-27)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.2.0...7.3.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>TokenVerifier::verify throws a \RuntimeException instead of an InvalidTokenException <a href="https://github.com/auth0/auth0-PHP/issues/438">#438</a></li>
+<li>Support Guzzle 7 <a href="https://github.com/auth0/auth0-PHP/issues/421">#421</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add Support for Log Streams Management APIs <a href="https://github.com/auth0/auth0-PHP/pull/451">#451</a> (<a href="https://github.com/jimmyjames">jimmyjames</a>)</li>
+<li>Update composer requirements to support guzzle ~7.0 <a href="https://github.com/auth0/auth0-PHP/pull/443">#443</a> (<a href="https://github.com/banderon1">banderon1</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Throw InvalidTokenException instead of RuntimeException when parsing malformed token <a href="https://github.com/auth0/auth0-PHP/pull/439">#439</a> (<a href="https://github.com/B-Galati">B-Galati</a>)</li>
+</ul>
+<h2 id="7-2-0-2020-04-23-"><a href="https://github.com/auth0/auth0-PHP/tree/7.2.0">7.2.0</a> (2020-04-23)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.1.0...7.2.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Renew Tokens throws nonce error <a href="https://github.com/auth0/auth0-PHP/issues/432">#432</a></li>
+<li>email_passwordless_start not setting client_secret <a href="https://github.com/auth0/auth0-PHP/issues/431">#431</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>/passwordless/start accepts client_secret now <a href="https://github.com/auth0/auth0-PHP/pull/430">#430</a> (<a href="https://github.com/abbaspour">abbaspour</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Allow no nonce option <a href="https://github.com/auth0/auth0-PHP/pull/434">#434</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="7-1-0-2020-02-19-"><a href="https://github.com/auth0/auth0-PHP/tree/7.1.0">7.1.0</a> (2020-02-19)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/7.0.0...7.1.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Authorized Party (azp) claim mismatch in the ID token <a href="https://github.com/auth0/auth0-PHP/issues/422">#422</a></li>
+<li>JWTVerifier alternatives <a href="https://github.com/auth0/auth0-PHP/issues/419">#419</a></li>
+<li>Consider to customize the jwks path <a href="https://github.com/auth0/auth0-PHP/issues/417">#417</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add TokenVerifier for non-OIDC-compliant JWTs <a href="https://github.com/auth0/auth0-PHP/pull/428">#428</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add signing key rotation and custom JWKS URI support <a href="https://github.com/auth0/auth0-PHP/pull/426">#426</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add Client ID to verification email method <a href="https://github.com/auth0/auth0-PHP/pull/423">#423</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="7-0-0-2020-01-15-"><a href="https://github.com/auth0/auth0-PHP/tree/7.0.0">7.0.0</a> (2020-01-15)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.7.0...7.0.0">Full Changelog</a></p>
+<p><strong>BEFORE YOU UPGRADE</strong></p>
+<p>This is a major release with several breaking changes. Please see the <a href="https://github.com/auth0/auth0-PHP/blob/master/UPGRADE.md">v5 to v7 migration guide here</a> before you upgrade.</p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add types for StoreInterface and implementors; add back EmptyStore <a href="https://github.com/auth0/auth0-PHP/pull/414">#414</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add select Guardian management endpoints <a href="https://github.com/auth0/auth0-PHP/pull/412">#412</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add Auth0-&gt;decodeIdToken() method for ID token decoding by deps <a href="https://github.com/auth0/auth0-PHP/pull/410">#410</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add SameSite cookie attribute handling <a href="https://github.com/auth0/auth0-PHP/pull/400">#400</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Nonce and max_age handling with new CookieStore class <a href="https://github.com/auth0/auth0-PHP/pull/395">#395</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Convert caching to PSR-16 interface <a href="https://github.com/auth0/auth0-PHP/pull/403">#403</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Move AuthorizationBearer to new namespace <a href="https://github.com/auth0/auth0-PHP/pull/402">#402</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Improve transient authorization data handling <a href="https://github.com/auth0/auth0-PHP/pull/397">#397</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Cleanup Auth0 class constructor for clarification and better defaults <a href="https://github.com/auth0/auth0-PHP/pull/394">#394</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Change client secret requirements <a href="https://github.com/auth0/auth0-PHP/pull/390">#390</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Improved OIDC compliance <a href="https://github.com/auth0/auth0-PHP/pull/386">#386</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Update minimum PHP from 5.5 to 7.1 <a href="https://github.com/auth0/auth0-PHP/pull/377">#377</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Remove future iat check <a href="https://github.com/auth0/auth0-PHP/pull/411">#411</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove Firebase JWT library <a href="https://github.com/auth0/auth0-PHP/pull/396">#396</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove session cookie expiration option <a href="https://github.com/auth0/auth0-PHP/pull/389">#389</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated Authentication methods and add types <a href="https://github.com/auth0/auth0-PHP/pull/385">#385</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated JWKS methods and adjust tests <a href="https://github.com/auth0/auth0-PHP/pull/384">#384</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated M-API methods <a href="https://github.com/auth0/auth0-PHP/pull/383">#383</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated InformationHeaders methods and add types <a href="https://github.com/auth0/auth0-PHP/pull/382">#382</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated methods and add types to RequestBuilder <a href="https://github.com/auth0/auth0-PHP/pull/381">#381</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated token generator <a href="https://github.com/auth0/auth0-PHP/pull/380">#380</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Remove deprecated legacy classes <a href="https://github.com/auth0/auth0-PHP/pull/379">#379</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Update management props <a href="https://github.com/auth0/auth0-PHP/pull/378">#378</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-7-0-2019-12-09-"><a href="https://github.com/auth0/auth0-PHP/tree/5.7.0">5.7.0</a> (2019-12-09)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.6.0...5.7.0">Full Changelog</a></p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add default scopes to Auth0 class <a href="https://github.com/auth0/auth0-PHP/pull/406">#406</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>fix: add missing options for renewTokens method <a href="https://github.com/auth0/auth0-PHP/pull/405">#405</a> (<a href="https://github.com/bkotrys">bkotrys</a>)</li>
+</ul>
+<p><strong>Deprecated</strong></p>
+<ul>
+<li>Add deprecation notices for removals in v7 major release <a href="https://github.com/auth0/auth0-PHP/pull/407">#407</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix mkdir race condition in FileSystemCacheHandler <a href="https://github.com/auth0/auth0-PHP/pull/375">#375</a> (<a href="https://github.com/B-Galati">B-Galati</a>)</li>
+</ul>
+<h2 id="5-6-0-2019-09-26-"><a href="https://github.com/auth0/auth0-PHP/tree/5.6.0">5.6.0</a> (2019-09-26)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.5.1...5.6.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>[Auth0\SDK\Exception\CoreException] Invalid domain when trying to run unit tests with Codeception 3.1.0 <a href="https://github.com/auth0/auth0-PHP/issues/358">#358</a></li>
+<li>JWT Verification fails everytime <a href="https://github.com/auth0/auth0-PHP/issues/356">#356</a></li>
+<li>Bulk User Imports - I can&#39;t Use <code>upsert</code> as a paramater for the <code>importUsers</code> feature <a href="https://github.com/auth0/auth0-PHP/issues/353">#353</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add \Auth0\SDK\Auth0::getLoginUrl() method and switch login() to use it <a href="https://github.com/auth0/auth0-PHP/pull/371">#371</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add JWKFetcher::getFormatted() method and switch validator to use <a href="https://github.com/auth0/auth0-PHP/pull/369">#369</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add additional API params to Jobs &gt; importUsers <a href="https://github.com/auth0/auth0-PHP/pull/354">#354</a> (<a href="https://github.com/pinodex">pinodex</a>)</li>
+</ul>
+<p><strong>Deprecated</strong></p>
+<ul>
+<li>Deprecated unused JWKFetcher methods <a href="https://github.com/auth0/auth0-PHP/pull/373">#373</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Deprecate magic __call method on RequestBuilder class <a href="https://github.com/auth0/auth0-PHP/pull/366">#366</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Deprecate Management properties; add lazy-load methods <a href="https://github.com/auth0/auth0-PHP/pull/363">#363</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Deprecate and stop using magic call method on ApiClient <a href="https://github.com/auth0/auth0-PHP/pull/362">#362</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Deprecate addPathVariable and dump methods on RequestBuilder <a href="https://github.com/auth0/auth0-PHP/pull/361">#361</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Deprecate TokenGenerator class <a href="https://github.com/auth0/auth0-PHP/pull/360">#360</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix boolean form parameters not sending as strings <a href="https://github.com/auth0/auth0-PHP/pull/357">#357</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-5-1-2019-07-15-"><a href="https://github.com/auth0/auth0-PHP/tree/5.5.1">5.5.1</a> (2019-07-15)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.5.0...5.5.1">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>No packagist package created for 5.5.0 <a href="https://github.com/auth0/auth0-PHP/issues/346">#346</a></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix empty url params <a href="https://github.com/auth0/auth0-PHP/pull/349">#349</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Fix tests to reduce the number of sensitive credentials used <a href="https://github.com/auth0/auth0-PHP/pull/348">#348</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Change normalizeIncludeTotals() in GenericResource to have sane defaults <a href="https://github.com/auth0/auth0-PHP/pull/347">#347</a> (<a href="https://github.com/kler">kler</a>)</li>
+</ul>
+<h2 id="5-5-0-2019-06-07-"><a href="https://github.com/auth0/auth0-PHP/tree/5.5.0">5.5.0</a> (2019-06-07)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.4.0...5.5.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Consider dropping PHP-5.x version supports <a href="https://github.com/auth0/auth0-PHP/issues/343">#343</a></li>
+<li>Auth0 Error: &#39;Invalid state&#39; in /auth0/vendor/auth0/auth0-php/src/Auth0.php: line#537 <a href="https://github.com/auth0/auth0-PHP/issues/333">#333</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add missing User endpoints for Management API <a href="https://github.com/auth0/auth0-PHP/pull/341">#341</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add all Management API Roles endpoints <a href="https://github.com/auth0/auth0-PHP/pull/337">#337</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add missing Users test and switch to mocked calls. <a href="https://github.com/auth0/auth0-PHP/pull/336">#336</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add Authentication::refresh_token() method <a href="https://github.com/auth0/auth0-PHP/pull/335">#335</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-4-0-2019-02-28-"><a href="https://github.com/auth0/auth0-PHP/tree/5.4.0">5.4.0</a> (2019-02-28)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.3.2...5.4.0">Full Changelog</a></p>
+<p><strong>Notes for this release:</strong></p>
+<ul>
+<li><code>\Auth0\SDK\Auth0</code> now accepts a <code>$config</code> key called <code>skip_userinfo</code> that uses the decoded ID token for the user profile instead of a call to the <code>/userinfo</code> endpoint. This will save an HTTP call during login and should have no affect on most applications.</li>
+</ul>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li><code>Auth0::exchange()</code> assumes a valid id_token <a href="https://github.com/auth0/auth0-PHP/issues/317">#317</a></li>
+<li>Feature Request: Support sending <code>auth0-forwarded-for</code> header <a href="https://github.com/auth0/auth0-PHP/issues/208">#208</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Authentication class cleanup and tests <a href="https://github.com/auth0/auth0-PHP/pull/322">#322</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add Grants Management endpoint <a href="https://github.com/auth0/auth0-PHP/pull/321">#321</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add <code>Auth0-Forwarded-For</code> header for RO grant <a href="https://github.com/auth0/auth0-PHP/pull/320">#320</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Improve API Telemetry <a href="https://github.com/auth0/auth0-PHP/pull/319">#319</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add Mock API Request Capability and Mocked Connections Tests <a href="https://github.com/auth0/auth0-PHP/pull/314">#314</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Test suite improvements <a href="https://github.com/auth0/auth0-PHP/pull/313">#313</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Improve repo documentation <a href="https://github.com/auth0/auth0-PHP/pull/312">#312</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Deprecated</strong></p>
+<ul>
+<li>Official deprecation for <code>JWKFetcher</code> method <a href="https://github.com/auth0/auth0-PHP/pull/328">#328</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)<ul>
+<li><code>\Auth0\SDK\Helpers\JWKFetcher::fetchKeys()</code></li>
+</ul>
+</li>
+<li>Official deprecation for <code>User</code> methods <a href="https://github.com/auth0/auth0-PHP/pull/327">#327</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)<ul>
+<li><code>\Auth0\SDK\API\Management\Users::search()</code></li>
+<li><code>\Auth0\SDK\API\Management\Users::unlinkDevice()</code></li>
+</ul>
+</li>
+<li>Official deprecation of <code>ClientGrants</code> method <a href="https://github.com/auth0/auth0-PHP/pull/326">#326</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)<ul>
+<li><code>\Auth0\SDK\API\Management\ClientGrants::get()</code></li>
+</ul>
+</li>
+<li>Official deprecation of legacy <code>InformationHeaders</code> methods <a href="https://github.com/auth0/auth0-PHP/pull/325">#325</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)<ul>
+<li><code>\Auth0\SDK\API\Helpers\InformationHeaders::setEnvironment()</code></li>
+<li><code>\Auth0\SDK\API\Helpers\InformationHeaders::setDependency()</code></li>
+<li><code>\Auth0\SDK\API\Helpers\InformationHeaders::setDependencyData()</code></li>
+</ul>
+</li>
+<li>Official deprecation of legacy <code>Authentication</code> methods <a href="https://github.com/auth0/auth0-PHP/pull/324">#324</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)<ul>
+<li><code>\Auth0\SDK\API\Authentication::setApiClient()</code></li>
+<li><code>\Auth0\SDK\API\Authentication::sms_code_passwordless_verify()</code></li>
+<li><code>\Auth0\SDK\API\Authentication::email_code_passwordless_verify()</code></li>
+<li><code>\Auth0\SDK\API\Authentication::impersonate()</code></li>
+</ul>
+</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix <code>Auth0::exchange()</code> to handle missing id_token <a href="https://github.com/auth0/auth0-PHP/pull/318">#318</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-3-2-2018-11-2-"><a href="https://github.com/auth0/auth0-PHP/tree/5.3.2">5.3.2</a> (2018-11-2)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.3.1...5.3.2">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Something is wrong with the latest release 5.3.1 <a href="https://github.com/auth0/auth0-PHP/issues/303">#303</a></li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix info headers Extend error in dependant libs <a href="https://github.com/auth0/auth0-PHP/pull/304">#304</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-3-1-2018-10-31-"><a href="https://github.com/auth0/auth0-PHP/tree/5.3.1">5.3.1</a> (2018-10-31)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.3.0...5.3.1">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Array to String exception when audience is an array <a href="https://github.com/auth0/auth0-PHP/issues/296">#296</a></li>
+<li>Passing accessToken from frontend to PHP API <a href="https://github.com/auth0/auth0-PHP/issues/281">#281</a></li>
+<li>Deprecated method email_code_passwordless_verify <a href="https://github.com/auth0/auth0-PHP/issues/280">#280</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Fix documentation for Auth0 constructor options <a href="https://github.com/auth0/auth0-PHP/pull/298">#298</a> (<a href="https://github.com/biganfa">biganfa</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Change telemetry headers to new format and add tests <a href="https://github.com/auth0/auth0-PHP/pull/300">#300</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix bad exception message generation <a href="https://github.com/auth0/auth0-PHP/pull/297">#297</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-3-0-2018-10-09-"><a href="https://github.com/auth0/auth0-PHP/tree/5.3.0">5.3.0</a> (2018-10-09)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.2.0...5.3.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Question: Handling rate limits <a href="https://github.com/auth0/auth0-PHP/issues/277">#277</a></li>
+<li>Allow configuration of the JWKS URL <a href="https://github.com/auth0/auth0-PHP/issues/276">#276</a></li>
+<li>Allow changing the session key name <a href="https://github.com/auth0/auth0-PHP/issues/273">#273</a></li>
+<li>SessionStore overrides PHP session cookie lifetime setting <a href="https://github.com/auth0/auth0-PHP/issues/215">#215</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add custom JWKS path and kid check to JWKFetcher + tests <a href="https://github.com/auth0/auth0-PHP/pull/287">#287</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add config keys for session base name and cookie expires <a href="https://github.com/auth0/auth0-PHP/pull/279">#279</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add return request object <a href="https://github.com/auth0/auth0-PHP/pull/278">#278</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add pagination and tests to Resource Servers <a href="https://github.com/auth0/auth0-PHP/pull/275">#275</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Fix formatting, code standards scan <a href="https://github.com/auth0/auth0-PHP/pull/274">#274</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add pagination, docs, and better tests for Rules <a href="https://github.com/auth0/auth0-PHP/pull/272">#272</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Adding pagination, tests, + docs to Client Grants; minor test suite refactor <a href="https://github.com/auth0/auth0-PHP/pull/271">#271</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add tests, docblocks for Logs endpoints <a href="https://github.com/auth0/auth0-PHP/pull/270">#270</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add PHP_CodeSniffer + ruleset config <a href="https://github.com/auth0/auth0-PHP/pull/267">#267</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add session state and dummy state handler tests <a href="https://github.com/auth0/auth0-PHP/pull/266">#266</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Build/PHPCS: update/improve the PHPCS configuration <a href="https://github.com/auth0/auth0-PHP/pull/284">#284</a> (<a href="https://github.com/jrfnl">jrfnl</a>)</li>
+</ul>
+<p><strong>Deprecated</strong></p>
+<ul>
+<li>Deprecate Auth0\SDK\API\Oauth2Client class <a href="https://github.com/auth0/auth0-PHP/pull/269">#269</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Remove examples, add links to Quickstarts <a href="https://github.com/auth0/auth0-PHP/pull/293">#293</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Whitespace pass with new standards using composer phpcbf <a href="https://github.com/auth0/auth0-PHP/pull/268">#268</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Security</strong></p>
+<ul>
+<li>Add ID token validation <a href="https://github.com/auth0/auth0-PHP/pull/285">#285</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-2-0-2018-06-13-"><a href="https://github.com/auth0/auth0-PHP/tree/5.2.0">5.2.0</a> (2018-06-13)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.1.1...5.2.0">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>getAppMetadata - how to use? <a href="https://github.com/auth0/auth0-PHP/issues/248">#248</a></li>
+<li>Auth0 class missing action to renew access token <a href="https://github.com/auth0/auth0-PHP/issues/234">#234</a></li>
+<li>DOC maj <a href="https://github.com/auth0/auth0-PHP/issues/217">#217</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>User pagination and fields, docblocks, formatting, test improvements <a href="https://github.com/auth0/auth0-PHP/pull/261">#261</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Unit test for withDictParams method <a href="https://github.com/auth0/auth0-PHP/pull/260">#260</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Pagination, additional parameters, and tests for the Connections endpoint <a href="https://github.com/auth0/auth0-PHP/pull/258">#258</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Renew tokens method for Auth0 client class <a href="https://github.com/auth0/auth0-PHP/pull/257">#257</a> (<a href="https://github.com/jspetrak">jspetrak</a>)</li>
+<li>Clients endpoint pagination and improvements <a href="https://github.com/auth0/auth0-PHP/pull/256">#256</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Add email template endpoints <a href="https://github.com/auth0/auth0-PHP/pull/251">#251</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Code style scan and fixes <a href="https://github.com/auth0/auth0-PHP/pull/250">#250</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fix PHPUnit test. <a href="https://github.com/auth0/auth0-PHP/pull/262">#262</a> (<a href="https://github.com/maurobonfietti">maurobonfietti</a>)</li>
+<li>Allow \$page to be null for Clients so pagination is not triggered <a href="https://github.com/auth0/auth0-PHP/pull/259">#259</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Rewrite README; add news and notes to CHANGELOG <a href="https://github.com/auth0/auth0-PHP/pull/253">#253</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-1-1-2018-04-03-"><a href="https://github.com/auth0/auth0-PHP/tree/5.1.1">5.1.1</a> (2018-04-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.1.0...5.1.1">Full Changelog</a></p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>State Handler with Custom Session Store <a href="https://github.com/auth0/auth0-PHP/issues/233">#233</a></li>
+<li>Implement ResourceServices::getAll <a href="https://github.com/auth0/auth0-PHP/issues/200">#200</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Implement ResourceServices::getAll() <a href="https://github.com/auth0/auth0-PHP/pull/236">#236</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Incorrect type hint on SessionStateHandler __construct <a href="https://github.com/auth0/auth0-PHP/pull/235">#235</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+<li>Auth0 class documentation fixed for store and state handler <a href="https://github.com/auth0/auth0-PHP/pull/232">#232</a> (<a href="https://github.com/jspetrak">jspetrak</a>)</li>
+<li>Fixing minor code quality issues <a href="https://github.com/auth0/auth0-PHP/pull/231">#231</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-1-0-2018-03-02-"><a href="https://github.com/auth0/auth0-PHP/tree/5.1.0">5.1.0</a> (2018-03-02)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.0.6...5.1.0">Full Changelog</a></p>
+<p><strong>Notes on this release:</strong></p>
+<p><a href="https://auth0.com/docs/protocols/oauth2/oauth-state">State validation</a> was added for improved security. Please see our <a href="https://auth0.com/docs/libraries/auth0-php/troubleshooting">troubleshooting page</a> for more information on how this works and potential issues.</p>
+<p><strong>Closed issues</strong></p>
+<ul>
+<li>Support for php-jwt 5 <a href="https://github.com/auth0/auth0-PHP/issues/210">#210</a></li>
+</ul>
+<p><strong>Added</strong></p>
+<ul>
+<li>Added XSRF State Storage / Validation <a href="https://github.com/auth0/auth0-PHP/pull/214">#214</a> (<a href="https://github.com/cocojoe">cocojoe</a>)</li>
+<li>Adding tests for state handler; correcting storage method used <a href="https://github.com/auth0/auth0-PHP/pull/228">#228</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Bumping JWT package version <a href="https://github.com/auth0/auth0-PHP/pull/229">#229</a> (<a href="https://github.com/joshcanhelp">joshcanhelp</a>)</li>
+</ul>
+<h2 id="5-0-6-2017-11-24-"><a href="https://github.com/auth0/auth0-PHP/tree/5.0.4">5.0.6</a> (2017-11-24)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.0.4...5.0.6">Full Changelog</a></p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Add support for the new users by email API <a href="https://github.com/auth0/auth0-PHP/pull/213">#213</a> (<a href="https://github.com/erichard">erichard</a>)</li>
+</ul>
+<p><strong>Fixed</strong></p>
+<ul>
+<li>Fixes build <a href="https://github.com/auth0/auth0-PHP/pull/211">#211</a> (<a href="https://github.com/aknosis">aknosis</a>)</li>
+</ul>
+<h2 id="5-0-4-2017-06-26-"><a href="https://github.com/auth0/auth0-PHP/tree/5.0.4">5.0.4</a> (2017-06-26)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/5.0.0...5.0.4">Full Changelog</a></p>
+<p><strong>Added</strong></p>
+<ul>
+<li>Added setter for debugger <a href="https://github.com/auth0/auth0-PHP/pull/149">#149</a> (<a href="https://github.com/AxaliaN">AxaliaN</a>)</li>
+</ul>
+<p><strong>Changed</strong></p>
+<ul>
+<li>Restructured tests and fixed hhvm build <a href="https://github.com/auth0/auth0-PHP/pull/164">#164</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+<li>Update .env.example with more appropriate values <a href="https://github.com/auth0/auth0-PHP/pull/148">#148</a> (<a href="https://github.com/AmaanC">AmaanC</a>)</li>
+</ul>
+<p><strong>Removed</strong></p>
+<ul>
+<li>Remove non-essential dev package <a href="https://github.com/auth0/auth0-PHP/pull/157">#157</a> (<a href="https://github.com/Nyholm">Nyholm</a>)</li>
+</ul>
+<h2 id="3-4-0-2016-06-21-"><a href="https://github.com/auth0/auth0-PHP/tree/3.4.0">3.4.0</a> (2016-06-21)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.7...3.4.0">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>More descriptive error message when code exchange fails <a href="https://github.com/auth0/auth0-PHP/issues/86">#86</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Correctly build logout url query string <a href="https://github.com/auth0/auth0-PHP/pull/87">#87</a> (<a href="https://github.com/robinvdvleuten">robinvdvleuten</a>)</li>
+</ul>
+<h2 id="3-3-7-2016-06-09-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.7">3.3.7</a> (2016-06-09)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.6...3.3.7">Full Changelog</a></p>
+<h2 id="3-3-6-2016-06-09-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.6">3.3.6</a> (2016-06-09)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.5...3.3.6">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>\$this->access_token is an array, not object <a href="https://github.com/auth0/auth0-PHP/pull/85">#85</a> (<a href="https://github.com/dev101">dev101</a>)</li>
+</ul>
+<h2 id="3-3-5-2016-05-24-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.5">3.3.5</a> (2016-05-24)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.4...3.3.5">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Create password change ticket fails <a href="https://github.com/auth0/auth0-PHP/issues/84">#84</a></li>
+<li>UnexpectedValueException is used in Auth0JWT.php but is not defined <a href="https://github.com/auth0/auth0-PHP/issues/80">#80</a></li>
+<li>Add support for auth api endpoints (/ro) <a href="https://github.com/auth0/auth0-PHP/issues/22">#22</a></li>
+</ul>
+<h2 id="3-3-4-2016-05-24-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.4">3.3.4</a> (2016-05-24)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.3...3.3.4">Full Changelog</a></p>
+<h2 id="3-3-3-2016-05-24-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.3">3.3.3</a> (2016-05-24)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.2.3...3.3.3">Full Changelog</a></p>
+<h2 id="2-2-3-2016-05-10-"><a href="https://github.com/auth0/auth0-PHP/tree/2.2.3">2.2.3</a> (2016-05-10)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.2...2.2.3">Full Changelog</a></p>
+<h2 id="3-3-2-2016-05-10-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.2">3.3.2</a> (2016-05-10)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.1...3.3.2">Full Changelog</a></p>
+<h2 id="3-3-1-2016-05-10-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.1">3.3.1</a> (2016-05-10)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.2.2...3.3.1">Full Changelog</a></p>
+<h2 id="2-2-2-2016-05-10-"><a href="https://github.com/auth0/auth0-PHP/tree/2.2.2">2.2.2</a> (2016-05-10)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.3.0...2.2.2">Full Changelog</a></p>
+<h2 id="3-3-0-2016-05-09-"><a href="https://github.com/auth0/auth0-PHP/tree/3.3.0">3.3.0</a> (2016-05-09)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.2.1...3.3.0">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>deleted uneccessary code, fixed typos <a href="https://github.com/auth0/auth0-PHP/pull/83">#83</a> (<a href="https://github.com/Amialc">Amialc</a>)</li>
+<li>Add Docker support <a href="https://github.com/auth0/auth0-PHP/pull/82">#82</a> (<a href="https://github.com/smtx">smtx</a>)</li>
+<li>changed UnexpectedValueException to CoreException <a href="https://github.com/auth0/auth0-PHP/pull/81">#81</a> (<a href="https://github.com/dryror">dryror</a>)</li>
+<li>Added auth api support <a href="https://github.com/auth0/auth0-PHP/pull/78">#78</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="3-2-1-2016-05-02-"><a href="https://github.com/auth0/auth0-PHP/tree/3.2.1">3.2.1</a> (2016-05-02)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.2.1...3.2.1">Full Changelog</a></p>
+<h2 id="2-2-1-2016-04-27-"><a href="https://github.com/auth0/auth0-PHP/tree/2.2.1">2.2.1</a> (2016-04-27)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.2.0...2.2.1">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>outdated dependency in api example <a href="https://github.com/auth0/auth0-PHP/issues/75">#75</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>dependencies update in basic api example <a href="https://github.com/auth0/auth0-PHP/pull/79">#79</a> (<a href="https://github.com/Amialc">Amialc</a>)</li>
+</ul>
+<h2 id="3-2-0-2016-04-15-"><a href="https://github.com/auth0/auth0-PHP/tree/3.2.0">3.2.0</a> (2016-04-15)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.2.0...3.2.0">Full Changelog</a></p>
+<ul>
+<li>Now the SDK supports RS256 codes, it will decode using the <code>.well-known/jwks.json</code> endpoint to fetch the public key</li>
+</ul>
+<h2 id="2-2-0-2016-04-15-"><a href="https://github.com/auth0/auth0-PHP/tree/2.2.0">2.2.0</a> (2016-04-15)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.1.0...2.2.0">Full Changelog</a></p>
+<p><strong>Notes</strong></p>
+<ul>
+<li>Now the SDK fetches the user using the <code>tokeninfo</code> endpoint to be fully compliant with the openid spec</li>
+<li>Now the SDK supports RS256 codes, it will decode using the <code>.well-known/jwks.json</code> endpoint to fetch the public key</li>
+</ul>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>/tokeninfo API support <a href="https://github.com/auth0/auth0-PHP/issues/76">#76</a></li>
+<li>Specify GuzzleHttp config <a href="https://github.com/auth0/auth0-PHP/issues/73">#73</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fix typo in DocBlock <a href="https://github.com/auth0/auth0-PHP/pull/77">#77</a> (<a href="https://github.com/tflight">tflight</a>)</li>
+</ul>
+<h2 id="3-1-0-2016-03-10-"><a href="https://github.com/auth0/auth0-PHP/tree/3.1.0">3.1.0</a> (2016-03-10)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.0.1...3.1.0">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>API seed incomptaible with auth0-php 3 <a href="https://github.com/auth0/auth0-PHP/issues/70">#70</a></li>
+<li>&quot;cURL error 60: SSL certificate problem: self signed certificate in certificate chain (see <a href="http://curl.haxx.se/libcurl/c/libcurl-errors.html\)&quot;">http://curl.haxx.se/libcurl/c/libcurl-errors.html\)&quot;</a>, <a href="https://github.com/auth0/auth0-PHP/issues/69">#69</a></li>
+<li>basic-webapp outdated dependencies <a href="https://github.com/auth0/auth0-PHP/issues/68">#68</a></li>
+<li>basic-webapp project relative path <a href="https://github.com/auth0/auth0-PHP/issues/67">#67</a></li>
+<li>Typo on README <a href="https://github.com/auth0/auth0-PHP/issues/63">#63</a></li>
+<li>Missing updateAppMetadata() method? <a href="https://github.com/auth0/auth0-PHP/issues/59">#59</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>3.1.0 <a href="https://github.com/auth0/auth0-PHP/pull/74">#74</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Compatibility with new version of Auth0php <a href="https://github.com/auth0/auth0-PHP/pull/72">#72</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+<li>depedencies update, fix routes to css and js <a href="https://github.com/auth0/auth0-PHP/pull/71">#71</a> (<a href="https://github.com/Amialc">Amialc</a>)</li>
+<li>update lock version <a href="https://github.com/auth0/auth0-PHP/pull/66">#66</a> (<a href="https://github.com/Amialc">Amialc</a>)</li>
+<li>Fixed typo <a href="https://github.com/auth0/auth0-PHP/pull/65">#65</a> (<a href="https://github.com/thijsvdanker">thijsvdanker</a>)</li>
+<li>Update README.md <a href="https://github.com/auth0/auth0-PHP/pull/64">#64</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+<li>Test travis env vars <a href="https://github.com/auth0/auth0-PHP/pull/62">#62</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Fix typo <a href="https://github.com/auth0/auth0-PHP/pull/58">#58</a> (<a href="https://github.com/vboctor">vboctor</a>)</li>
+</ul>
+<h2 id="3-0-1-2016-02-03-"><a href="https://github.com/auth0/auth0-PHP/tree/3.0.1">3.0.1</a> (2016-02-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.11...3.0.1">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fixed Importing users <a href="https://github.com/auth0/auth0-PHP/pull/61">#61</a> (<a href="https://github.com/polishdeveloper">polishdeveloper</a>)</li>
+</ul>
+<h2 id="1-0-11-2016-01-27-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.11">1.0.11</a> (2016-01-27)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/3.0.0...1.0.11">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Exception: Cannot handle token prior to [timestamp] <a href="https://github.com/auth0/auth0-PHP/issues/56">#56</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fix ApiConnections class name <a href="https://github.com/auth0/auth0-PHP/pull/60">#60</a> (<a href="https://github.com/bjyoungblood">bjyoungblood</a>)</li>
+</ul>
+<h2 id="3-0-0-2016-01-18-"><a href="https://github.com/auth0/auth0-PHP/tree/3.0.0">3.0.0</a> (2016-01-18)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.1.2...3.0.0">Full Changelog</a></p>
+<p><strong>General 3.x notes</strong></p>
+<ul>
+<li>SDK api changes, now the Auth0 API client is not build of static classes anymore. Usage example:</li>
+</ul>
+<pre><code class="lang-php">$token = &quot;eyJhbGciO....eyJhdWQiOiI....1ZVDisdL...&quot;;
+$domain = &quot;account.auth0.com&quot;;
+$guzzleOptions = [ ... ];
+
+$auth0Api = new \Auth0\SDK\Auth0Api($token, $domain, $guzzleOptions); /* $guzzleOptions is optional */
+
+$usersList = $auth0Api-&gt;users-&gt;search([ &quot;q&quot; =&gt; &quot;email@test.com&quot; ]);
+</code></pre>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Missing instruccions step 2 Configure Auth0 PHP Plugin <a href="https://github.com/auth0/auth0-PHP/issues/55">#55</a></li>
+<li>Outdated Lock <a href="https://github.com/auth0/auth0-PHP/issues/52">#52</a></li>
+<li>Deprecated method in basic-webapp <a href="https://github.com/auth0/auth0-PHP/issues/50">#50</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>V3 with new API and full support for API V2 <a href="https://github.com/auth0/auth0-PHP/pull/57">#57</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="2-1-2-2016-01-14-"><a href="https://github.com/auth0/auth0-PHP/tree/2.1.2">2.1.2</a> (2016-01-14)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.1.1...2.1.2">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Update Lock <a href="https://github.com/auth0/auth0-PHP/pull/53">#53</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+<li>Update index.php <a href="https://github.com/auth0/auth0-PHP/pull/51">#51</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+<li>Update lock <a href="https://github.com/auth0/auth0-PHP/pull/45">#45</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+</ul>
+<h2 id="2-1-1-2015-11-29-"><a href="https://github.com/auth0/auth0-PHP/tree/2.1.1">2.1.1</a> (2015-11-29)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.1.0...2.1.1">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fix Closure namespace issue <a href="https://github.com/auth0/auth0-PHP/pull/49">#49</a> (<a href="https://github.com/mkeasling">mkeasling</a>)</li>
+</ul>
+<h2 id="2-1-0-2015-11-24-"><a href="https://github.com/auth0/auth0-PHP/tree/2.1.0">2.1.0</a> (2015-11-24)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/2.0.0...2.1.0">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Update to use v3.0 of firebase/php-jwt <a href="https://github.com/auth0/auth0-PHP/issues/47">#47</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>2.0.1 updated JWT dependency <a href="https://github.com/auth0/auth0-PHP/pull/48">#48</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="2-0-0-2015-11-23-"><a href="https://github.com/auth0/auth0-PHP/tree/2.0.0">2.0.0</a> (2015-11-23)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.10...2.0.0">Full Changelog</a></p>
+<p><strong>General 2.x notes</strong></p>
+<ul>
+<li>Session storage now returns null (and null is expected by the sdk) if there is no info stored (this change was made since false is a valid value to be stored in session).</li>
+<li>Guzzle 6.1 required</li>
+</ul>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Guzzle 6 <a href="https://github.com/auth0/auth0-PHP/issues/43">#43</a></li>
+<li>User is null not false <a href="https://github.com/auth0/auth0-PHP/issues/41">#41</a></li>
+<li>Issues with PHP Seed project <a href="https://github.com/auth0/auth0-PHP/issues/38">#38</a></li>
+<li>authParams... how do I retrieve the results? <a href="https://github.com/auth0/auth0-PHP/issues/37">#37</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>2.x.x dev <a href="https://github.com/auth0/auth0-PHP/pull/46">#46</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Update README.md <a href="https://github.com/auth0/auth0-PHP/pull/40">#40</a> (<a href="https://github.com/Annyv2">Annyv2</a>)</li>
+<li>Update composer instructions <a href="https://github.com/auth0/auth0-PHP/pull/39">#39</a> (<a href="https://github.com/iWader">iWader</a>)</li>
+</ul>
+<h2 id="1-0-10-2015-09-23-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.10">1.0.10</a> (2015-09-23)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.9...1.0.10">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Improve error message when no id_token is received after code exchange <a href="https://github.com/auth0/auth0-PHP/issues/35">#35</a></li>
+<li>PHP should be 5.4+, not 5.3+ <a href="https://github.com/auth0/auth0-PHP/issues/34">#34</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Release 1.0.10 <a href="https://github.com/auth0/auth0-PHP/pull/36">#36</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Remove code that rewrites user_id property in \$body <a href="https://github.com/auth0/auth0-PHP/pull/33">#33</a> (<a href="https://github.com/Ring">Ring</a>)</li>
+</ul>
+<h2 id="1-0-9-2015-08-03-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.9">1.0.9</a> (2015-08-03)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.8...1.0.9">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Stable dependencies in composer.json instead of &quot;dev-master&quot; <a href="https://github.com/auth0/auth0-PHP/issues/30">#30</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>tagged adoy to ~1.3 <a href="https://github.com/auth0/auth0-PHP/pull/31">#31</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Bad reference in Android PHP API Seed Project Readme file #67 <a href="https://github.com/auth0/auth0-PHP/pull/29">#29</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-8-2015-07-27-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.8">1.0.8</a> (2015-07-27)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.7...1.0.8">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Class &#39;JWT&#39; not found <a href="https://github.com/auth0/auth0-PHP/issues/25">#25</a></li>
+<li>Correct way to use the JWT Token generated in API v2 if we want expanded scope <a href="https://github.com/auth0/auth0-PHP/issues/19">#19</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fix create client api call + new create user example <a href="https://github.com/auth0/auth0-PHP/pull/28">#28</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-7-2015-07-17-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.7">1.0.7</a> (2015-07-17)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.6...1.0.7">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Error at Auth0JWT::encode when using custom payload <a href="https://github.com/auth0/auth0-PHP/issues/23">#23</a></li>
+<li>Error in composer install <a href="https://github.com/auth0/auth0-PHP/issues/21">#21</a></li>
+<li>Test <a href="https://github.com/auth0/auth0-PHP/issues/20">#20</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>v1.0.7 <a href="https://github.com/auth0/auth0-PHP/pull/26">#26</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Readme file call URL port fixed <a href="https://github.com/auth0/auth0-PHP/pull/18">#18</a> (<a href="https://github.com/jose-e-rodriguez">jose-e-rodriguez</a>)</li>
+<li>ApiUsers link account identities fix <a href="https://github.com/auth0/auth0-PHP/pull/16">#16</a> (<a href="https://github.com/deboorn">deboorn</a>)</li>
+</ul>
+<h2 id="1-0-6-2015-06-12-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.6">1.0.6</a> (2015-06-12)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.5...1.0.6">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Make Auth0::setUser public in order to let update the stored user <a href="https://github.com/auth0/auth0-PHP/pull/17">#17</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-5-2015-06-02-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.5">1.0.5</a> (2015-06-02)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.4...1.0.5">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Updates the changed endpoints (tickets) <a href="https://github.com/auth0/auth0-PHP/pull/15">#15</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Api users search link accounts fix <a href="https://github.com/auth0/auth0-PHP/pull/14">#14</a> (<a href="https://github.com/deboorn">deboorn</a>)</li>
+<li>Auth0JWT encode fix to allow scope with null custom payload <a href="https://github.com/auth0/auth0-PHP/pull/13">#13</a> (<a href="https://github.com/deboorn">deboorn</a>)</li>
+</ul>
+<h2 id="1-0-4-2015-05-19-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.4">1.0.4</a> (2015-05-19)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.3...1.0.4">Full Changelog</a></p>
+<h2 id="1-0-3-2015-05-15-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.3">1.0.3</a> (2015-05-15)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.2...1.0.3">Full Changelog</a></p>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Applied the new Info Headers schema <a href="https://github.com/auth0/auth0-PHP/pull/12">#12</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-2-2015-05-13-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.2">1.0.2</a> (2015-05-13)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.1...1.0.2">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>EU tenants are getting Unauthorize on api calls <a href="https://github.com/auth0/auth0-PHP/issues/10">#10</a></li>
+<li>PHP Fatal error: Class &#39;Auth0\SDK\API\ApiUsers&#39; not found in vendor/auth0/auth0-php/src/Auth0.php on line 256 <a href="https://github.com/auth0/auth0-PHP/issues/9">#9</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Fix EU api calls and autoloading issue <a href="https://github.com/auth0/auth0-PHP/pull/11">#11</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-1-2015-05-12-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.1">1.0.1</a> (2015-05-12)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/1.0.0...1.0.1">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>SDK Client headers spec compliant <a href="https://github.com/auth0/auth0-PHP/issues/7">#7</a></li>
+<li>Example is out of date <a href="https://github.com/auth0/auth0-PHP/issues/5">#5</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>SDK Client headers spec compliant #7 <a href="https://github.com/auth0/auth0-PHP/pull/8">#8</a> (<a href="https://github.com/glena">glena</a>)</li>
+</ul>
+<h2 id="1-0-0-2015-05-07-"><a href="https://github.com/auth0/auth0-PHP/tree/1.0.0">1.0.0</a> (2015-05-07)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/0.6.6...1.0.0">Full Changelog</a></p>
+<p><strong>General 1.x notes</strong></p>
+<ul>
+<li>Now, all the SDK is under the namespace <code>\Auth0\SDK</code></li>
+<li>The exceptions were moved to the namespace <code>\Auth0\SDK\Exceptions</code></li>
+<li>The Auth0 class, now provides two methods to access the user metadata, <code>getUserMetadata</code> and <code>getAppMetadata</code>. For more info, check the <a href="https://auth0.com/docs/apiv2Changes">API v2 changes</a></li>
+<li>The Auth0 class, now provides a way to update the UserMetadata with the method <code>updateUserMetadata</code>. Internally, it uses the <a href="https://auth0.com/docs/apiv2#!/users/patch_users_by_id">update user endpoint</a>, check the method documentation for more info.</li>
+<li>The new service <code>\Auth0\SDK\API\ApiUsers</code> provides an easy way to consume the API v2 Users endpoints.</li>
+<li>A simple API client (<code>\Auth0\SDK\API\ApiClient</code>) is also available to use.</li>
+<li>A JWT generator and decoder is also available (<code>\Auth0\SDK\Auth0JWT</code>)</li>
+<li>Now provides an interface for the <a href="https://auth0.com/docs/auth-api">Authentication API</a>.</li>
+</ul>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>Unexpected token <a href="https://github.com/auth0/auth0-PHP/issues/4">#4</a></li>
+</ul>
+<p><strong>Merged pull requests:</strong></p>
+<ul>
+<li>Auth0 API v2 support <a href="https://github.com/auth0/auth0-PHP/pull/6">#6</a> (<a href="https://github.com/glena">glena</a>)</li>
+<li>Fixed port number on PHP README <a href="https://github.com/auth0/auth0-PHP/pull/2">#2</a> (<a href="https://github.com/mgonto">mgonto</a>)</li>
+</ul>
+<h2 id="0-6-6-2014-04-14-"><a href="https://github.com/auth0/auth0-PHP/tree/0.6.6">0.6.6</a> (2014-04-14)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/0.6.5...0.6.6">Full Changelog</a></p>
+<p><strong>Closed issues:</strong></p>
+<ul>
+<li>generateUrl() in BaseAuth0 is creating bad URLs <a href="https://github.com/auth0/auth0-PHP/issues/1">#1</a></li>
+</ul>
+<h2 id="0-6-5-2014-04-02-"><a href="https://github.com/auth0/auth0-PHP/tree/0.6.5">0.6.5</a> (2014-04-02)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/0.6.4...0.6.5">Full Changelog</a></p>
+<h2 id="0-6-4-2014-02-13-"><a href="https://github.com/auth0/auth0-PHP/tree/0.6.4">0.6.4</a> (2014-02-13)</h2>
+<p><a href="https://github.com/auth0/auth0-PHP/compare/0.6.3...0.6.4">Full Changelog</a></p>
+<h2 id="0-6-3-2014-01-06-"><a href="https://github.com/auth0/auth0-PHP/tree/0.6.3">0.6.3</a> (2014-01-06)</h2>
+<p>* _This Change Log was automatically generated by <a href="https://github.com/skywinder/Github-Changelog-Generator">github_changelog_generator</a>_</p>
+
+      </body>
+    </html>

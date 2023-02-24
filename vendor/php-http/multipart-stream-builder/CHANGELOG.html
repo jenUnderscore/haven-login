@@ -1,0 +1,76 @@
+<html>
+      <head>
+        <meta charset="UTF-8">
+        <title>CHANGELOG.md</title>
+      </head>
+      <body>
+        <h1 id="change-log">Change Log</h1>
+<h2 id="1-2-0-2021-05-21">1.2.0 - 2021-05-21</h2>
+<ul>
+<li>Refactored MultipartStreamBuilder to clean up and allow injecting data without a filename</li>
+<li>Dynamically use memory or temp file to buffer the stream content.</li>
+</ul>
+<h2 id="1-1-2-2020-07-13">1.1.2 - 2020-07-13</h2>
+<ul>
+<li>Support PHP 8.0</li>
+</ul>
+<h2 id="1-1-1-2020-07-04">1.1.1 - 2020-07-04</h2>
+<ul>
+<li>Fixed mistake in PHPDoc type.</li>
+</ul>
+<h2 id="1-1-0-2019-08-22">1.1.0 - 2019-08-22</h2>
+<ul>
+<li>Added support for PSR-17 factories.</li>
+<li>Dropped support for PHP &lt; 7.1</li>
+</ul>
+<h2 id="1-0-0-2017-05-21">1.0.0 - 2017-05-21</h2>
+<p>No changes from 0.2.0.</p>
+<h2 id="0-2-0-2017-02-20">0.2.0 - 2017-02-20</h2>
+<p>You may do a BC update to version 0.2.0 if you are sure that you are not adding
+multiple resources with the same name to the Builder.</p>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Make sure one can add resources with same name without overwrite.</li>
+</ul>
+<h2 id="0-1-6-2017-02-16">0.1.6 - 2017-02-16</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Performance improvements by avoid using <code>uniqid()</code>.</li>
+</ul>
+<h2 id="0-1-5-2017-02-14">0.1.5 - 2017-02-14</h2>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>Support for non-readable streams. This fix was needed because flaws in Guzzle, Zend and Slims implementations of PSR-7.</li>
+</ul>
+<h2 id="0-1-4-2016-12-31">0.1.4 - 2016-12-31</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Added support for resetting the builder</li>
+</ul>
+<h2 id="0-1-3-2016-12-22">0.1.3 - 2016-12-22</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Added <code>CustomMimetypeHelper</code> to allow you to configure custom mimetypes.</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Using regular expression instead of <code>basename($filename)</code> because basename is depending on locale.</li>
+</ul>
+<h2 id="0-1-2-2016-08-31">0.1.2 - 2016-08-31</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support for Outlook msg files.</li>
+</ul>
+<h2 id="0-1-1-2016-08-10">0.1.1 - 2016-08-10</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Support for Apple passbook.</li>
+</ul>
+<h2 id="0-1-0-2016-07-19">0.1.0 - 2016-07-19</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Initial release</li>
+</ul>
+
+      </body>
+    </html>
