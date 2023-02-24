@@ -90,12 +90,19 @@ function run_haven_login() {
 
   //public
   if($plugin->get_public()){
+    add_filter('body_class', array($plugin->get_public(),'add_body_class'));
+
+    //login shortcodes
     add_shortcode('haven-email-login', array($plugin->get_public(),'auth0_email_check'));
     add_shortcode('haven-login-buttons', array($plugin->get_public(),'login_buttons'));
     add_shortcode('haven-login', array($plugin->get_public(),'login_block'));
     add_shortcode('haven-maintenance', array($plugin->get_public(),'maintenance_mode'));
-    add_filter('body_class', array($plugin->get_public(),'add_body_class'));
 
+    //ignores the maintenance_mode and auth0_active flags
+    add_shortcode('haven-test-login', array($plugin->get_public(),'login_form'));
+
+    //highjack any stray midbi things in case the shortcodes are still out there
+    //also filters away the CCT Cloud login button
     $plugin->get_public()->midbi_highjack();
 
   }

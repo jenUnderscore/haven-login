@@ -241,30 +241,40 @@ class Haven_Login_Public {
       if(!$hide_maintenance) return $this->maintenance_mode($params);
     }
     elseif($this->auth0->checkEnv() && $this->getSetting('auth0_activate') == "Y"){ 
-      $tpl = '
-      <div class="ui fluid card">
-        <div class="content">
-          %s
-          <div class="clear">
-            %s
-          </div>  
-        </div>
-        <div class="extra content">
-          <div>
-            %s
-            %s
-          </div>
-        </div>
-      </div>';
-  
-      $block_title = ($this->getSetting('auth0_login_title')) ? '<h2>' . $this->getSetting('auth0_login_title') . '</h2>' : '';
-      $message = ($this->getSetting('auth0_login_message')) ? '<div class="meta">' . wpautop($this->getSetting('auth0_login_message')) . '</div>' : '';
-      $alert = ($this->getSetting('auth0_login_alert')) ? '<div class="login-alert">' . wpautop($this->getSetting('auth0_login_alert')) . '</div>' : '';
-      $form = $this->auth0->auth0EmailForm($title,$minimal);
-      $footer = ($this->getSetting('auth0_login_footer')) ? wpautop($this->getSetting('auth0_login_footer'))  : '';
-
-      return sprintf($tpl,$block_title,$form,$message,$alert,$footer);
+      $this->login_form($params=array());
     }
+  }
+
+  public function login_form($params=array()){
+    extract(shortcode_atts(array(
+      'hide_maintenance' => false,
+      'minimal' => false,
+      'title' => ''
+    ), $params)); 
+
+    $tpl = '
+    <div class="ui fluid card">
+      <div class="content">
+        %s
+        %s 
+      </div>
+      <div class="extra content">
+        <div class="clear">
+          %s
+        </div> 
+        <div>
+          %s
+        </div>
+      </div>
+    </div>';
+
+    $block_title = ($this->getSetting('auth0_login_title')) ? '<h2>' . $this->getSetting('auth0_login_title') . '</h2>' : '';
+    $message = ($this->getSetting('auth0_login_message')) ? '<div class="meta">' . wpautop($this->getSetting('auth0_login_message')) . '</div>' : '';
+    $alert = ($this->getSetting('auth0_login_alert')) ? '<div class="login-alert">' . wpautop($this->getSetting('auth0_login_alert')) . '</div>' : '';
+    $form = $this->auth0->auth0EmailForm($title,$minimal);
+    $footer = ($this->getSetting('auth0_login_footer')) ? wpautop($this->getSetting('auth0_login_footer'))  : '';
+
+    return sprintf($tpl,$block_title,$message,$form,$alert,$footer);
   }
 
   public function maintenance_mode($params=array()){
