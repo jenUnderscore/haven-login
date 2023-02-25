@@ -264,6 +264,7 @@ class Haven_Login_Public {
         </div> 
         <div>
           %s
+          %s
         </div>
       </div>
     </div>';
