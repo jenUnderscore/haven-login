@@ -29,7 +29,7 @@ if ( !defined( 'HAVEN_LOGIN_PLUGIN_PUBLIC_DIR' ) )
 if ( !defined( 'HAVEN_LOGIN_PLUGIN_PUBLIC_URL' ) )
   define( 'HAVEN_LOGIN_PLUGIN_PUBLIC_URL',  path_join(HAVEN_LOGIN_PLUGIN_URL, 'public' ) );
 if ( !defined( 'HAVEN_LOGIN_PLUGIN_ADMIN_URL' ) )
-  define( 'HAVEN_LOGIN_PLUGIN_ADMIN_URL',  path_join(HAVEN_LOGIN_PLUGIN_URL, 'admin' ) );
+  define( 'HAVEN_LOGIN_PLUGIN_ADMIN_URL',  path_join(HAVEN_LOGIN_PLUGIN_URL, 'admin' ) ); 
 
 
 /**
