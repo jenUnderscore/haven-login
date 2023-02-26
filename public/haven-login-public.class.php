@@ -20,7 +20,7 @@
  * @subpackage haven-login/public
  * @author     JenUnderscore_ <jhood@underscoresolutions.com>
  */
-class Haven_Login_Public {
+class Haven_Login_Public extends Haven_Login{
   /**
    * The loader that's responsible for maintaining and registering all hooks that power
    * the plugin.
@@ -59,14 +59,6 @@ class Haven_Login_Public {
 	 */
   private $auth0;
 
-	/**
-	 * Settings
-	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      array    $settings an array of the settings
-	 */
-  private $settings;
 
 	/**
 	 * Initialize the class and set its properties.
@@ -78,7 +70,7 @@ class Haven_Login_Public {
 	 */
 	public function __construct( $loader, $haven_login, $version ) {
 
-    $this->settings = stripslashes_deep(get_option( 'haven-settings', array() ));
+    parent::__construct();
 		$this->haven_login = $haven_login;
 		$this->version = $version;
     $this->loader = $loader; 
@@ -89,7 +81,7 @@ class Haven_Login_Public {
   }
 
   public function getSetting($key=null){
-    if($key) return $this->settings[$key];
+    if($key) return $this->settings->$key;
     
     return $this->settings;
   }
@@ -106,6 +98,8 @@ class Haven_Login_Public {
   private function define_hooks() {
     $this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_styles');
     $this->loader->add_action( 'wp_enqueue_scripts', $this, 'enqueue_scripts');
+
+    $this->loader->add_action( 'haven_virtual_pages', $this, 'create_virtual_page');
     
     //$this->loader->add_action( 'wp_head', $this, 'header_script' );
 
@@ -324,6 +318,24 @@ class Haven_Login_Public {
     }
 
     return '';
+  }
+
+  public function output(){
+    $tpl = '<h2>%s</h2><p>%s</p><p>%s</p>';
+    if(array_key_exists("id",$_GET)){
+      switch($_GET["id"]){
+        case 'reset':
+          $title = 'Password Reset Required';
+          $msg = 'An email with instructions has been sent to you. Click the link in the email to reset your password and proceed to log in.';
+          $action = $this->auth0->printSignIn(false);
+          
+         break;
+      }
+    }
+
+    $out = sprintf($tpl,$title,$msg,$action);
+
+    return $out;
   }
 
   /*------------------------------------*\

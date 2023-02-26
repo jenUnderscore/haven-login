@@ -230,7 +230,7 @@ class Haven_Login_Auth0API
       $this->auth0->clear();
       $authentication = $this->auth0->authentication();
       
-      echo $emailSanitized.'<br/>';
+      //echo $emailSanitized.'<br/>';
 
       $user = $this->getUserDetailsByEmail($email);
       $response = $this->auth0->management()->usersByEmail()->get($emailSanitized);
@@ -238,45 +238,59 @@ class Haven_Login_Auth0API
         $auth0 = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
         $params = array('login_hint' => $emailSanitized);
 
-        if($user){
-          echo 'has user: ' . $user->getId(). '<br/>';
+        /*if($user){
+          //echo 'has user: ' . $user->getId(). '<br/>';
           if($user->getAccountId()) echo 'has account: ' . $user->getAccountId(). '<br/>';
-        }
-        if($auth0){
-          echo 'has auth0: ' . '</br>';
-        }
+        }/*
+        if($auth0) $auth0User = current($auth0);
+
+        //if($auth0){
+        //  $emailVerified = $auth0User['email_verified'];
+        //  echo 'has auth0: ' .$auth0User['user_id']  . '<br/>';
+        //  echo 'email_verified:'.$emailVerified.'<br />';
+        //  echo 'logins count: ' . $auth0User['logins_count'] . '<br/>'; //
+        //  var_dump($auth0User);
+        //}
 
         //if has no Haven user and no auth0 user, send to sign-up screen
-        if(!$user && !$auth0){
-          echo 'no user + no auth0 -> go to signup <br/>';
-         //header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-         //exit;
+        /*if(!$user && !$auth0){
+          //echo 'no user + no auth0 -> go to signup <br/>';
+         header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+         exit;
         }
-        if(!$user && $auth0){
-          echo 'no user + has auth0 -> go to login <br/>';
-          header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        if((!$user && $auth0) || ($user && $auth0)){
+          //if((!$user && $auth0)) echo 'no user + has auth0';
+          //if(($user && $auth0)) echo 'has user + has auth0';
+
+          //if the user has never logged in, initiate the password  
+          //if(!$auth0User['logins_count'])
+          //echo '-> go to login <br/>';
+          //header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
           exit;
         }
         if($user && !$auth0){
-          echo 'has user + no auth0 -> go to password page ->';
+          //echo 'has user + no auth0 -> go to password page ->';
         }
+        if($user && $auth0){
+          echo 'has user + no auth0 -> go to password page ->';
+        }*/
 
-        /*if($auth0){
+        if($auth0){
           header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
           exit;
         }
         else{
           header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
           exit;
-        }*/
-        exit;
-        return true;  
+        }
+        exit;  
       }
 
       //something went wrong go back to referrer
-      header("Location: " . $_SERVER['HTTP_REFERER']);
+      header("Location: " . ROUTE_URL_INDEX);
       exit;
     }
+    header("Location: " . ROUTE_URL_INDEX);
     exit;
 	}
 }
