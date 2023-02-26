@@ -13,6 +13,10 @@ class Haven_Login_User {
     public function getId(){
       return $this->id;
     }
+
+    public function getAccountId(){
+      return $this->details->account->id;
+    }
     
     public function getDetail($key=null){
       if($key) return $this->details->$key;

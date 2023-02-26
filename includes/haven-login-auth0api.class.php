@@ -58,16 +58,22 @@ class Haven_Login_Auth0API
     return $this->settings;
   }
 
+  private function getUserDetailsByEmail($email){
+    $api = new Haven_API('user');
+    $results = $api->process('email='.$email, "GET");
+
+    if($results){
+      $result = current($results);
+      return new Haven_Login_User($result->id,$result->details);
+    }
+    
+    return null;
+  }
+
   private function setUserDetails(){
     if($this->session && $this->session->user){
       if(array_key_exists('email',$this->session->user)){
-        $api = new Haven_API('user');
-        $results = $api->process('email='.$this->session->user['email'], "GET");
-
-        if($results){
-          $result = current($results);
-          $this->user = new Haven_Login_User($result->id,$result->details);
-        }
+        $this->user = $this->getUserDetailsByEmail($this->session->user['email']);
       }
     }
   }
@@ -202,40 +208,6 @@ class Haven_Login_Auth0API
     header("Location: " . $this->auth0->logout(ROUTE_URL_INDEX));
     exit;
 	}
-
-	private function checkUser(){
-    if(array_key_exists('email',$_POST)){
-      $email = $_POST['email'];
-      $emailSanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
-      
-      $this->auth0->clear();
-      $authentication = $this->auth0->authentication();
-      //$management = $this->auth0->management();
-      
-      // Or, a fluent example:
-      //$response = $this->auth0->management()->usersByEmail()->get('admin@centralcounties.ca');
-      
-      $response = $this->auth0->management()->usersByEmail()->get($emailSanitized);
-      if ($response->getStatusCode() === 200) { // Checks that the status code was 200
-        $result = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
-          $params = array('login_hint' => $emailSanitized);
-        if($result){
-          header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
-          exit;
-        }
-        else{
-          header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-          exit;
-        }
-        return true;  
-      }
-
-      //something went wrong go back to referrer
-      header("Location: " . $_SERVER['HTTP_REFERER']);
-      exit;
-    }
-    exit;
-	}
 	
 	private function doCallback(){
     // Have the SDK complete the authentication flow:
@@ -247,6 +219,64 @@ class Haven_Login_Auth0API
 
     header("Location: " . $root_url . "/authenticate");
     
+    exit;
+	}
+
+	private function checkUser(){
+    if(array_key_exists('email',$_POST)){
+      $email = $_POST['email'];
+      $emailSanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
+      
+      $this->auth0->clear();
+      $authentication = $this->auth0->authentication();
+      
+      echo $emailSanitized.'<br/>';
+
+      $user = $this->getUserDetailsByEmail($email);
+      $response = $this->auth0->management()->usersByEmail()->get($emailSanitized);
+      if ($response->getStatusCode() === 200) { // Checks that the status code was 200
+        $auth0 = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
+        $params = array('login_hint' => $emailSanitized);
+
+        if($user){
+          echo 'has user: ' . $user->getId(). '<br/>';
+          if($user->getAccountId()) echo 'has account: ' . $user->getAccountId(). '<br/>';
+        }
+        if($auth0){
+          echo 'has auth0: ' . '</br>';
+        }
+
+        //if has no Haven user and no auth0 user, send to sign-up screen
+        if(!$user && !$auth0){
+          echo 'no user + no auth0 -> go to signup <br/>';
+         //header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+         //exit;
+        }
+        if(!$user && $auth0){
+          echo 'no user + has auth0 -> go to login <br/>';
+          header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+          exit;
+        }
+        if($user && !$auth0){
+          echo 'has user + no auth0 -> go to password page ->';
+        }
+
+        /*if($auth0){
+          header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+          exit;
+        }
+        else{
+          header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+          exit;
+        }*/
+        exit;
+        return true;  
+      }
+
+      //something went wrong go back to referrer
+      header("Location: " . $_SERVER['HTTP_REFERER']);
+      exit;
+    }
     exit;
 	}
 }
