@@ -29,6 +29,7 @@ class Haven_Login_Auth0API
       define('ROUTE_URL_CALLBACK', ROUTE_URL_INDEX . '/?callback');
       define('ROUTE_URL_CHECKUSER', ROUTE_URL_INDEX . '/?checkuser');
       define('ROUTE_URL_LOGOUT', ROUTE_URL_INDEX . '/?logout');
+      define('ROUTE_URL_LOGIN_NOTICE', ROUTE_URL_INDEX . '/login-notice');
       
       $this->setSession();
       $this->checkAuthRequest();
@@ -223,68 +224,122 @@ class Haven_Login_Auth0API
 	}
 
 	private function checkUser(){
+    //init vars
+    $userBody = array();
+    $firstname = '';
+    $lastname = '';
+    $name = '';
+    $nickname = '';
+    $havenUser = null;
+    $auth0User = null;
+    $params = array();
+
     if(array_key_exists('email',$_POST)){
-      $email = $_POST['email'];
-      $emailSanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
-      
+      //clear the existing login
       $this->auth0->clear();
+
+      //init auth0 authentication (gets token)
       $authentication = $this->auth0->authentication();
       
-      //echo $emailSanitized.'<br/>';
+      //sanitise the email
+      $email = $_POST['email'];
+      $emailSanitized = filter_var($email, FILTER_SANITIZE_EMAIL);
+      //echo 'checking: '.$emailSanitized .'<br/><br/>';
+      
+      //fetch any existing user information in the haven deatabase
+      $havenUser = $this->getUserDetailsByEmail($email);
+      
+      //if we find a haven user - set the body info
+      if($havenUser){
+        $firstname = $havenUser->getFirstname();
+        $lastname = $havenUser->getLastname();
+        $name = $havenUser->getFirstname() .' '.$havenUser->getLastname();
+        $nickname = substr($emailSanitized, 0, strpos($emailSanitized, '@'));
+        $userBody = array('given_name'=>$firstname,'family_name'=>$lastname,'name'=>$name,'nickname'=>$nickname);
 
-      $user = $this->getUserDetailsByEmail($email);
+        //echo '<h2>Haven User</h2>';
+        //echo serialize($havenUser).'<br/><br/>';
+      }
+
+      //find an auth0 user that matches the email
       $response = $this->auth0->management()->usersByEmail()->get($emailSanitized);
       if ($response->getStatusCode() === 200) { // Checks that the status code was 200
-        $auth0 = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
+        $auth0Response = json_decode($response->getBody()->__toString(), true, 512, JSON_THROW_ON_ERROR);
         $params = array('login_hint' => $emailSanitized);
 
-        /*if($user){
-          //echo 'has user: ' . $user->getId(). '<br/>';
-          if($user->getAccountId()) echo 'has account: ' . $user->getAccountId(). '<br/>';
-        }/*
-        if($auth0) $auth0User = current($auth0);
-
-        //if($auth0){
-        //  $emailVerified = $auth0User['email_verified'];
-        //  echo 'has auth0: ' .$auth0User['user_id']  . '<br/>';
-        //  echo 'email_verified:'.$emailVerified.'<br />';
-        //  echo 'logins count: ' . $auth0User['logins_count'] . '<br/>'; //
-        //  var_dump($auth0User);
-        //}
-
-        //if has no Haven user and no auth0 user, send to sign-up screen
-        /*if(!$user && !$auth0){
-          //echo 'no user + no auth0 -> go to signup <br/>';
-         header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-         exit;
+        //if there is an auth0Response set the auth0User
+        if($auth0Response){
+          $auth0User = $auth0Response[0];
+          //echo '<h2>auth0User</h2>';
+          //echo serialize($auth0User).'<br/><br/>';
         }
-        if((!$user && $auth0) || ($user && $auth0)){
-          //if((!$user && $auth0)) echo 'no user + has auth0';
-          //if(($user && $auth0)) echo 'has user + has auth0';
-
-          //if the user has never logged in, initiate the password  
-          //if(!$auth0User['logins_count'])
-          //echo '-> go to login <br/>';
-          //header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
-          exit;
-        }
-        if($user && !$auth0){
-          //echo 'has user + no auth0 -> go to password page ->';
-        }
-        if($user && $auth0){
-          echo 'has user + no auth0 -> go to password page ->';
-        }*/
-
-        if($auth0){
-          header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
-          exit;
-        }
-        else{
-          header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-          exit;
-        }
-        exit;  
       }
+      else{
+        //echo 'no auth0 response <br/>';
+      }
+
+      //if($auth0Response){
+      //  $emailVerified = $auth0User['email_verified'];
+      //  //echo 'has auth0: ' .$auth0User['user_id']  . '<br/>';
+      //  //echo 'email_verified:'.$emailVerified.'<br />';
+      //  //echo 'logins count: ' . $auth0User['logins_count'] . '<br/>'; //
+      //  var_dump($auth0User);
+      //};
+
+      //if has no Haven user and no auth0 user, send to sign-up screen
+      if(!$auth0User && !$havenUser){
+        //echo 'no auth0User + no havenUser -> <strong>go to signup</strong>';
+        header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+        exit;
+      }
+
+      //if has an auth0User, but no havenUser
+      if($auth0User && !$havenUser){
+        //echo 'has auth0 + no havenUser -> <strong>go to login</strong>';
+        header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        exit;
+      }
+      //if has no auth0User, but has a havenUser
+      if(!$auth0User && $havenUser){
+        //echo 'no auth0 + has havenUser -> ';
+
+      
+        //go to sigup
+        //echo '<strong>go to signup</strong>';
+        header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+        exit;
+      }
+
+      //has both types of users
+      if($havenUser && $auth0User){
+        //echo 'has auth0 + has auth0User -> ';
+        //if the user has logged in but is missing some info that is found in HavenUser, let's update auth0
+        if($auth0User['logins_count'] && $auth0User['user_id']){
+          if(!$auth0User['given_name'] && !$auth0User['family_name']){
+            $updateResponse = $this->auth0->management()->users()->update($auth0User['user_id'],$userBody);
+            if ( $updateResponse->getStatusCode() === 200){
+              //echo 'user details updated -> ';
+            }
+            else{
+              //echo 'user details update <span style="color:#FF0000">failed</span>';
+            }
+          }
+        }
+
+        //echo '<strong>go to login</strong>';
+        header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        exit;
+        ////echo 'has user + no auth0 -> go to password page ->';
+      }
+
+      /*if($auth0Response){
+        header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        exit;
+      }
+      else{
+        header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+        exit;
+      }*/
 
       //something went wrong go back to referrer
       header("Location: " . ROUTE_URL_INDEX);
