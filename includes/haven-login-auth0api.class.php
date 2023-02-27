@@ -28,6 +28,7 @@ class Haven_Login_Auth0API
       define('ROUTE_URL_LOGIN', ROUTE_URL_INDEX . '/?login');
       define('ROUTE_URL_CALLBACK', ROUTE_URL_INDEX . '/?callback');
       define('ROUTE_URL_CHECKUSER', ROUTE_URL_INDEX . '/?checkuser');
+      define('ROUTE_URL_VERIFICATION', ROUTE_URL_INDEX . '/?verification');
       define('ROUTE_URL_LOGOUT', ROUTE_URL_INDEX . '/?logout');
       define('ROUTE_URL_LOGIN_NOTICE', ROUTE_URL_INDEX . '/login-notice');
       
@@ -49,6 +50,7 @@ class Haven_Login_Auth0API
         else if(array_key_exists('signup',$_GET)) $this->doSignup();
 				  else if(array_key_exists('callback',$_GET)) $this->doCallback();
 				    else if(array_key_exists('checkuser',$_GET)) $this->checkUser();
+				      else if(array_key_exists('verification',$_GET)) $this->sendVerification();
 
     $this->setUserDetails();
 	}
@@ -222,6 +224,22 @@ class Haven_Login_Auth0API
     
     exit;
 	}
+	private function sendVerification(){
+    if(array_key_exists('user_id',$_GET)){
+      $authentication = $this->auth0->authentication();
+      $response = $this->auth0->management()->jobs()->createSendVerificationEmail($_GET['user_id'],array('client_id'=>$_ENV['AUTH0_CLIENT_ID']));
+      if ($response->getStatusCode() === 201) { // Checks that the status code was 201 
+        header("Location: " . ROUTE_URL_LOGIN_NOTICE . "/?id=verification");
+        exit;
+      }
+
+      header("Location: " . ROUTE_URL_LOGIN_NOTICE . "/?id=error");
+      exit;
+
+    }
+    header("Location: " . ROUTE_URL_LOGIN_NOTICE . "/?id=error");
+    exit;
+  }
 
 	private function checkUser(){
     //init vars

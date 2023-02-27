@@ -321,7 +321,10 @@ class Haven_Login_Public extends Haven_Login{
   }
 
   public function output(){
+    $dashboard_url = parse_url($this->getSetting('auth0_dashboard'), PHP_URL_SCHEME) . '://' . parse_url($this->getSetting('auth0_dashboard'), PHP_URL_HOST);
+    
     $tpl = '<h2>%s</h2><p>%s</p><p>%s</p>';
+    $action = $this->auth0->printSignIn(false);
     if(array_key_exists("id",$_GET)){
       switch($_GET["id"]){
         case 'reset':
@@ -330,6 +333,21 @@ class Haven_Login_Public extends Haven_Login{
           $action = $this->auth0->printSignIn(false);
           
          break;
+        case 'verification':
+          $title = 'Verification Email Sent';
+          $msg = 'A verification email has been sent. Check your inbox and click the "Confirm my Account" link in the message.';          
+          $action = '<a href="' . $dashboard_url. '">Back to Dashboard</a>';
+        break;
+        case 'error':
+          $title = 'Error';
+          $msg = "Something went wrong. Please contact <a href=\"mailto:support@centralcounties.ca\">support@centralcounties.ca</a>";
+
+          break;
+        default:
+          $title = "";
+          $msg = "";
+          $action = "";
+        break;
       }
     }
 
