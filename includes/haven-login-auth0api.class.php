@@ -147,6 +147,7 @@ class Haven_Login_Auth0API
         return '<li id="haven-menu" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children" aria-haspopup="true">
           <a href="' . $dashboard_url. '" class="button--user"><img src="' . $picture .'" class="haven__user--icon" /><div class="haven__user--content">' . $name . '<span>' . $email . '</span></div><i class="dropdown icon"></i></a>
             <ul class="sub-menu">
+            <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="' . $dashboard_url  . '">Go to Dashboard</a></li>
               <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="' . $dashboard_url  . '/account">Account Settings</a></li>
               <li class="menu-item menu-item-type-custom menu-item-object-custom"><a href="' . $dashboard_url  . '/logout">Logout</span></a></li>
             </ul>
