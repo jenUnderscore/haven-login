@@ -296,7 +296,7 @@ class Haven_Login_Public extends Haven_Login{
             . '
           </div>
           ' .  $maintenance_date . '
-        </div>';
+        </div>'; 
 
       if(!$minimal){
         $out = '<div class="ui fluid card">' . $out . '</div>';
