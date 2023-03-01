@@ -3,7 +3,7 @@
 Plugin Name: Haven Login
 Description: Plugin for adding login button for dashboard
 Author: Haven Destinations
-Version: 1.0.1
+Version: 1.0.0
 Author URI: http://havendestinations.ca
 */
 
