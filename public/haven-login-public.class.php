@@ -289,8 +289,8 @@ class Haven_Login_Public extends Haven_Login{
 
       $out = '      
         <div class="content">
-          '.$maintenance_title.'
           <div class="login-alert">
+          '.$maintenance_title.'
            ' . 
             wpautop($this->getSetting('maintenance_message'))
             . '
