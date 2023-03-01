@@ -259,7 +259,7 @@ class Haven_Login_Public extends Haven_Login{
         <div>
           %s
           %s
-        </div>
+        </div> 
       </div>
     </div>';
 
