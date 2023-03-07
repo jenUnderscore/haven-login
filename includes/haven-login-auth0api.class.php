@@ -305,23 +305,21 @@ class Haven_Login_Auth0API
       //  var_dump($auth0User);
       //};
 
+      $this->setSession();
+      $this->auth0->clear();
       //if has no Haven user and no auth0 user, send to sign-up screen
       if(!$auth0User && !$havenUser){
         //echo 'no auth0User + no havenUser -> <strong>go to signup</strong>';
-        //header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-        //exit;
-        $this->doSignup();
-        return true;
+        $this->auth0->clear();
+        header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+        exit;
       }
 
       //if has an auth0User, but no havenUser
       if($auth0User && !$havenUser){
         //echo 'has auth0 + no havenUser -> <strong>go to login</strong>';
-        //header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
-        //exit;
-        
-        $this->doLogin();
-        return true;
+        header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        exit;
       }
       //if has no auth0User, but has a havenUser
       if(!$auth0User && $havenUser){
@@ -330,11 +328,8 @@ class Haven_Login_Auth0API
       
         //go to sigup
         //echo '<strong>go to signup</strong>';
-        //header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
-        //exit;
-        
-        $this->doSignup();
-        return true;
+        header("Location: " . $this->auth0->signup(ROUTE_URL_CALLBACK,$params));
+        exit;
       }
 
       //has both types of users
@@ -354,13 +349,9 @@ class Haven_Login_Auth0API
         }
 
         //echo '<strong>go to login</strong>';
-        //header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
-        //exit;
+        header("Location: " . $this->auth0->login(ROUTE_URL_CALLBACK,$params));
+        exit;
         ////echo 'has user + no auth0 -> go to password page ->';
-        
-        $this->doLogin();
-
-        return true;
       }
 
       /*if($auth0Response){
