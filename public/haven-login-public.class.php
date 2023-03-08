@@ -235,7 +235,17 @@ class Haven_Login_Public extends Haven_Login{
       if(!$hide_maintenance) return $this->maintenance_mode($params);
     }
     elseif($this->auth0->checkEnv() && $this->getSetting('auth0_activate') == "Y"){ 
-      return $this->login_form($params);
+      if (!$this->auth0->isLoggedIn()) {
+        return $this->login_form($params);
+      }
+      else{
+        $dashboard_url = parse_url($this->getSetting('auth0_dashboard'), PHP_URL_SCHEME) . '://' . parse_url($this->getSetting('auth0_dashboard'), PHP_URL_HOST);
+    
+        $out = '<p>You are logged in.</p>';
+        $out .= '<p><a href="'.$dashboard_url .'" class="button primary">Go to the Dashboard</a></p>';
+
+        return $out;
+      }
     }
   }
 

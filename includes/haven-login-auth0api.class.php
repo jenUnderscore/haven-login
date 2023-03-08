@@ -126,6 +126,14 @@ class Haven_Login_Auth0API
 
       return $out;
     }
+    else{
+      $dashboard_url = parse_url($this->getSetting('auth0_dashboard'), PHP_URL_SCHEME) . '://' . parse_url($this->getSetting('auth0_dashboard'), PHP_URL_HOST);
+    
+      $out = '<p>You are logged in.</p>';
+      $out .= '<p><a href="'.$dashboard_url .'" class="button primary">Go to the Dashboard</a></p>';
+
+      return $out;
+    }
 
     return '';
   }
